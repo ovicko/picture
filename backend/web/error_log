@@ -1,0 +1,3 @@
+[21-May-2020 10:16:16 UTC] PHP Fatal error:  Cannot use 'Object' as class name as it is reserved in /home/skxw1j2sx7yi/public_html/picture.ovicko.com/vendor/yiisoft/yii2/base/Object.php on line 28
+[21-May-2020 10:16:16 UTC] PHP Fatal error:  Cannot use 'Object' as class name as it is reserved in /home/skxw1j2sx7yi/public_html/picture.ovicko.com/vendor/yiisoft/yii2/base/Object.php on line 28
+[21-May-2020 10:19:24 UTC] PHP Fatal error:  Cannot use 'Object' as class name as it is reserved in /home/skxw1j2sx7yi/public_html/picture.ovicko.com/vendor/yiisoft/yii2/base/Object.php on line 28

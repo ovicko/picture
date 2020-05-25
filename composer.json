@@ -1,0 +1,40 @@
+{
+    "name": "ovicko/picture",
+    "description": "Picture project",
+    "keywords": ["yii2", "sns", "blog", "forum"],
+    "homepage": "http://www.ovicko.com/",
+    "license": "MIT",
+    "minimum-stability": "stable",
+    "require": {
+        "php": ">=5.4.0",
+        "yiisoft/yii2": "*",
+        "yiisoft/yii2-bootstrap": "*",
+        "yiisoft/yii2-swiftmailer": "*",
+        "yiisoft/yii2-imagine": "*",
+        "shiyang/yii2-infinite-scroll": "*",
+        "shiyang/yii2-masonry": "*",
+        "justinvoelker/yii2-tagging": "*",
+        "iisns/yii2-webuploader": "^1.0",
+        "rmrevin/yii2-minify-view": "^1.13",
+        "codeception/base": "^2.2",
+        "kartik-v/yii2-widget-depdrop": "dev-master",
+        "kartik-v/yii2-widget-fileinput": "dev-master"
+    },
+    "require-dev": {
+        "yiisoft/yii2-debug": "*",
+        "yiisoft/yii2-gii": "*",
+        "yiisoft/yii2-faker": "*"
+    },
+    "config": {
+        "process-timeout": 1800,
+        "fxp-asset": {
+            "enabled": false
+        }
+    },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://asset-packagist.org"
+        }
+    ]
+}
