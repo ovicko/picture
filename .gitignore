@@ -47,3 +47,5 @@ common.zip
 /frontend/web/uploads/posts/*
 /frontend/web/uploads/user/*
 /frontend/web/images/*
+
+/common/frontend/*
