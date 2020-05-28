@@ -8,12 +8,7 @@ use frontend\assets\AppAsset;
 use common\widgets\Alert;
 use common\models\Category;
 use common\models\Country;
-/* @var $this yii\web\View */
-/* @var $model common\models\ImagePost */
-/* @var $form yii\widgets\ActiveForm */
 
-// print_r(\Yii::$app->util->token(12));
-// exit();
 $categories = Category::find()->all();
 
 $categoryMenu = array();
@@ -24,9 +19,6 @@ foreach ($categories as $category) {
     );
 
 }
-
-/* @var $this \yii\web\View */
-/* @var $content string */
 
 AppAsset::register($this);
 ?>

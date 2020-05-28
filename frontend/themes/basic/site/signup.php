@@ -41,9 +41,6 @@ $this->registerCss('
 ');
 ?>
 <div class="form-signin">
-    <div class="logo">
-      <img src="<?= Yii::getAlias('@web') ?>/images/logo.png">
-    </div>
     <h1><?= Html::encode($this->title) ?></h1>
 
     <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>

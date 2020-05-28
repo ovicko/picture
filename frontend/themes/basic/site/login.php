@@ -56,10 +56,6 @@ $this->registerCss('
         'class' => 'form-signin' 
     ]
 ]); ?>
-  <div class="logo">
-    <img src="<?= Yii::getAlias('@web') ?>/images/logo.png">
-  </div>
-
   <h1><?= Html::encode($this->title) ?></h1>
 
   <?= $form->field($model, 'username', [
