@@ -8,19 +8,19 @@ use yii\widgets\Breadcrumbs;
 if (!isset($this->title)) {
     $this->title = Yii::$app->setting->get('siteTitle');
 }
-if (Yii::$app->user->isGuest) {
-    $this->beginContent(__DIR__.'/basic.php');
-} else {
-    $this->beginContent('@app/modules/user/views/layouts/user.php');
-    $this->registerCssFile('@web/css/site.css');
-    $this->registerCss('
-        @media (min-width: 1200px) {
-          .container {
-            width: 970px;
-          }
-        }
-    ');
-}
+// if (Yii::$app->user->isGuest) {
+//     $this->beginContent(__DIR__.'/basic.php');
+// } else {
+//     $this->beginContent('@app/modules/user/views/layouts/user.php');
+//     $this->registerCssFile('@web/css/site.css');
+//     $this->registerCss('
+//         @media (min-width: 1200px) {
+//           .container {
+//             width: 970px;
+//           }
+//         }
+//     ');
+// }
 $this->registerMetaTag(['name' => 'keywords', 'content' => Yii::$app->setting->get('siteKeyword')]);
 $this->registerMetaTag(['name' => 'description', 'content' => Yii::$app->setting->get('siteDescription')]);
 $this->registerCss('

@@ -56,12 +56,12 @@ AppAsset::register($this);
                 'brandLabel' => 'Picture',
                 'brandUrl' => Yii::$app->homeUrl,
                 'options' => [
-                    'class' => 'navbar-default',
+                    'class' => 'navbar-custom navbar-fixed-top',
                 ],
             ]);
 
             $menuItems = [
-                ['label' => '<i class="glyphicon glyphicon-globe"></i> ' . Yii::t('app', 'Explore'), 'url' => ['/explore/index']],
+                ['label' => Yii::t('app', 'Explore'), 'url' => ['/explore/index']],
             ];
 
             $menuItems[] = [
@@ -71,10 +71,10 @@ AppAsset::register($this);
 
 
             if (Yii::$app->user->isGuest) {
-                $menuItems[] = ['label' => '<i class="glyphicon glyphicon-plus-sign"></i> ' . Yii::t('app', 'Sign up'), 'url' => ['/site/signup']];
-                $menuItems[] = ['label' => '<i class="glyphicon glyphicon-log-in"></i> ' . Yii::t('app', 'Log in'), 'url' => ['/site/login']];
+                $menuItems[] = ['label' => Yii::t('app', 'Sign up'), 'url' => ['/site/signup']];
+                $menuItems[] = ['label' =>  Yii::t('app', 'Log in'), 'url' => ['/site/login']];
             } else {
-                $menuItems[] = ['label' => '<i class="glyphicon glyphicon-dashboard"></i> ' . Yii::t('app', 'Dashboard'), 'url' => ['/user/dashboard']];
+                $menuItems[] = ['label' => Yii::t('app', 'Dashboard'), 'url' => ['/user/dashboard']];
                 $menuItems[] = [
                     'label' => '<i class="glyphicon glyphicon-log-out"></i> ' . Yii::t('app', 'Log out') . '(' . Yii::$app->user->identity->username . ')',
                     'url' => ['/site/logout'],
@@ -90,21 +90,19 @@ AppAsset::register($this);
         ?>
 
         <div class="container">
-        <?= Breadcrumbs::widget([
-            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-        ]) ?>
-        <?= Alert::widget() ?>
-        <?= $content ?>
+            <?= Breadcrumbs::widget([
+                'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+            ]) ?>
+            <?= Alert::widget() ?>
+            <?= $content ?>
         </div>
     </div>
 
     <footer class="footer">
         <div class="container">
-        <p class="pull-left">&copy; <?= Html::a(Yii::$app->setting->get('siteName'), ['/site/index']) ?> <?= date('Y') ?>
-            <?php
-            // Html::a (' 中文简体 ', '?lang=zh-CN') . '| ' . 
-            // Html::a (' English ', '?lang=en') ;  
-            ?>
+        <p class="pull-left">&copy;
+         <?= Html::a(Yii::$app->setting->get('siteName'), ['/site/index']) ?> <?= date('Y') ?>
+
         </p>
         </div>
     </footer>

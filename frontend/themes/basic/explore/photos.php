@@ -2,15 +2,12 @@
 
 use yii\helpers\Html;
 use yii\helpers\Url;
-use app\assets\LightBoxAsset;
-use shiyang\masonry\Masonry;
+use yii\widgets\LinkPager;
 
-/* @var $this yii\web\View */
-/* @var $dataProvider yii\data\ActiveDataProvider */
+$title = Yii::t('app', 'Explore') . ' - ' . Yii::t('app', 'Photos');
 
-LightBoxAsset::register($this);
-
-$this->params['title'] = Yii::t('app', 'Explore') . ' - ' . Yii::t('app', 'Photos');
+$this->title = $title;
+$this->params['title'] = $title;
 $this->params['breadcrumb'][] = Yii::t('app', 'Photos');
 $this->registerCss('
 .photo-index {
@@ -69,77 +66,60 @@ $this->registerCss('
   overflow: hidden;
   display: block;
 }
+
+* {
+  box-sizing: border-box;
+}
+
+.row {
+  display: -ms-flexbox; /* IE10 */
+  display: flex;
+  -ms-flex-wrap: wrap; /* IE10 */
+  flex-wrap: wrap;
+  padding: 0 4px;
+}
+
+/* Create four equal columns that sits next to each other */
+.column {
+  -ms-flex: 25%; /* IE10 */
+  flex: 25%;
+  max-width: 25%;
+  padding: 0 4px;
+}
+
+.column img {
+  margin-top: 8px;
+  vertical-align: middle;
+  width: 100%;
+}
+
+/* Responsive layout - makes a two column-layout instead of four columns */
+@media screen and (max-width: 800px) {
+  .column {
+    -ms-flex: 50%;
+    flex: 50%;
+    max-width: 50%;
+  }
+}
+
+/* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+  .column {
+    -ms-flex: 100%;
+    flex: 100%;
+    max-width: 100%;
+  }
+}
 ');
 ?>
-<div class="photo-index container-fluid">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-<style type="text/css">
-  .wrap {
-     overflow: hidden;
-     margin: 10px;
-  }
-  .box {
-     float: left;
-     position: relative;
-     width: 20%;
-     padding-bottom: 20%;
-  }
-  .boxInner {
-     position: absolute;
-     left: 10px;
-     right: 10px;
-     top: 10px;
-     bottom: 10px;
-     overflow: hidden;
-  }
-  .boxInner img {
-     width: 100%;
-  }
-  .boxInner .titleBox {
-     position: absolute;
-     bottom: 0;
-     left: 0;
-     right: 0;
-     margin-bottom: -50px;
-     background: #000;
-     background: rgba(0, 0, 0, 0.5);
-     color: #FFF;
-     padding: 10px;
-     text-align: center;
-     -webkit-transition: all 0.3s ease-out;
-     -moz-transition: all 0.3s ease-out;
-     -o-transition: all 0.3s ease-out;
-     transition: all 0.3s ease-out;
-  }
-
-  .no-touch .boxInner:hover .titleBox, body.touch .boxInner.touchFocus .titleBox {
-         margin-bottom: 0;
-      }
-</style>
-    <?=
-    \yii\widgets\ListView::widget([
-        'dataProvider' => $listDataProvider,
-        'options' => [
-            'tag' => 'div',
-            'class' => 'list-wrapper',
-            'id' => 'list-wrapper',
-        ],
-        'layout' => "{pager}\n{items}\n{summary}",
-        'itemView' => function ($model, $key, $index, $widget) {
-            return $this->render('_image_post',['model' => $model]);
-        },
-        'itemOptions' => [
-            'tag' => false,
-        ],
-        'pager' => [
-            'firstPageLabel' => 'first',
-            'lastPageLabel' => 'last',
-            'nextPageLabel' => 'next',
-            'prevPageLabel' => 'previous',
-            'maxButtonCount' => 3,
-        ],
-    ]);
-    ?>
-
+<div class="row">
+  <?php foreach ($listDataProvider->getModels() as $photo): ?>
+    <div class="column">
+      <img src="<?= Yii::getAlias('@web') .'/uploads/posts/'.$photo->thumbnail_url ?>" style="width: 100%" />
+      <!-- <div class="titleBox">Test Post <?= $photo->post_id ?></div> -->
+    </div>
+  <?php endforeach ?>
+  <?= LinkPager::widget([
+      'pagination' => $listDataProvider->getPagination()
+  ]); ?>
 </div>

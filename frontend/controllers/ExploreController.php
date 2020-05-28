@@ -26,7 +26,7 @@ Yii::setAlias('photo', '@web/uploads/home/photo/');
  */
 class ExploreController extends BaseController
 {
-    public $layout = 'explore';
+    public $layout = 'main';
 
     public function actionIndex()
     {
