@@ -38,9 +38,6 @@ class ExploreController extends BaseController
 
     public function actionPosts()
     {
-        
-
-
         $this->view->title = 'Posts List';
 
         $query = Explore::getPostQuery();
