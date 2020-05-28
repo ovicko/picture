@@ -6,6 +6,7 @@ use Yii;
 use common\models\City;
 use common\models\ImagePost;
 use common\models\ImagePostSearch;
+use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\AccessControl;
@@ -27,11 +28,7 @@ class PostController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        // 'actions' => ['login', 'error','signup'],
-                        // 'allow' => true,
-                    ],
-                    [
-                        'actions' => ['create', 'update', 'delete'],
+                        'actions' => ['create','category', 'update', 'delete'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -60,6 +57,20 @@ class PostController extends Controller
             'dataProvider' => $dataProvider,
         ]);
     }
+
+    public function actionCategory($category_id)
+    {
+        $listDataProvider = new \yii\data\ActiveDataProvider([
+            'query' => ImagePost::find()->where(['category_id' => (int)$category_id,'status' => 10])->orderBy('post_id DESC'),
+            'pagination' => [
+                'pageSize' => 20,
+            ],
+        ]);
+        return $this->render('search_result', [
+            'listDataProvider' => $listDataProvider,
+        ]);
+    }
+
 
     /**
      * Displays a single ImagePost model.

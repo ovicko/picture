@@ -15,7 +15,7 @@ $categoryMenu = array();
 foreach ($categories as $category) {
     $categoryMenu[] = array(
         'label' => $category->category_name,
-        'url' => "#".$category->category_id
+        'url' => ['/post/category?category_id='.$category->category_id]
     );
 
 }
