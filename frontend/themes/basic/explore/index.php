@@ -10,7 +10,7 @@ $this->params['title'] = Yii::t('app', 'Explore');
 ?>
 <div class="row">
     <div class="col-md-8">
-<h1>HELLO</h1>
+        
     </div>
     <div class="col-md-4">
         <?= \app\widgets\login\Login::widget([

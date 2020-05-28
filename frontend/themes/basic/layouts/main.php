@@ -67,11 +67,16 @@ AppAsset::register($this);
             $menuItems[] = [
                 'label' => 'Picture Categories',
                 'items' => $categoryMenu
-            ];            
+            ]; 
+
+            $menuItems[] = [
+                'label' => '<i class="glyphicon glyphicon-upload"></i> '.'Upload',
+                'url' => ['/post/create']
+            ];           
 
 
             if (Yii::$app->user->isGuest) {
-                $menuItems[] = ['label' => Yii::t('app', 'Sign up'), 'url' => ['/site/signup']];
+                $menuItems[] = ['label' => Yii::t('app', 'Join'), 'url' => ['/site/signup']];
                 $menuItems[] = ['label' =>  Yii::t('app', 'Log in'), 'url' => ['/site/login']];
             } else {
                 $menuItems[] = ['label' => Yii::t('app', 'Dashboard'), 'url' => ['/user/dashboard']];
