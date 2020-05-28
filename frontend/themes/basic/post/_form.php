@@ -17,8 +17,6 @@ use common\models\Country;
 /* @var $model common\models\ImagePost */
 /* @var $form yii\widgets\ActiveForm */
 
-// print_r(\Yii::$app->util->token(12));
-// exit();
 $categories = Category::find()->all();
 $categoryData = ArrayHelper::map($categories,'category_id','category_name');
 
@@ -37,7 +35,7 @@ $countryList = ArrayHelper::map($countries,'country_id','country_name');
         'options' => ['accept' => 'image/*,video/*'],
         'name' => 'mainImageUrl',
         'pluginOptions' => [
-            'showPreview' => false,
+            'showPreview' => true,
             'showCaption' => true,
             'showRemove' => true,
             'showUpload' => false
