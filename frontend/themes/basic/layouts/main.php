@@ -8,6 +8,7 @@ use frontend\assets\AppAsset;
 use common\widgets\Alert;
 use common\models\Category;
 use common\models\Country;
+use yii\bootstrap\Modal;
 
 $categories = Category::find()->all();
 
@@ -19,7 +20,7 @@ foreach ($categories as $category) {
     );
 
 }
-
+$user = Yii::$app->user->identity;
 AppAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
@@ -73,9 +74,34 @@ AppAsset::register($this);
             } else {
                 $menuItems[] = ['label' => Yii::t('app', 'Dashboard'), 'url' => ['/user/dashboard']];
                 $menuItems[] = [
-                    'label' => '<i class="glyphicon glyphicon-log-out"></i> ' . Yii::t('app', 'Log out') . '(' . Yii::$app->user->identity->username . ')',
-                    'url' => ['/site/logout'],
-                    'linkOptions' => ['data-method' => 'post']
+                    'label' => '<i class="glyphicon glyphicon-chevron-down"></i> ' .  Yii::$app->user->identity->username,
+                    
+                    'items' => [
+                         [
+                            'label' => "<img src=".Yii::getAlias('@avatar'). $user->avatar." alt='User Avatar'>
+                                <div class='detail'>
+                                    <strong>". Html::encode($user->username)."</strong>
+                                    <p class='grey'>".Html::encode($user->email)."</p>
+                                </div>", 
+                            'options'=> ['class'=>'dropdown-submenu'],
+                            'linkOptions'=>['class'=>'dropdown-item'],
+
+                        ],
+                        [ 
+                            'label' => '<i class="glyphicon glyphicon-edit"></i> Profile',
+                            'url' => ['/user/view', 'id' => $user->username],
+                        ],                        
+
+                        [ 
+                            'label' => '<i class="glyphicon glyphicon-cog"></i> Settings',
+                            'url' => ['/user/setting'],
+                        ],                        [ 
+                            'label' => '<i class="glyphicon glyphicon-log-out"></i> Sign out',
+                            'url' => '#',
+                            'options'=> ['data-toggle' => "modal",'data-target' => "#logoutConfirm"],
+                        ],
+
+                    ], 
                 ];
             }
             echo Nav::widget([
@@ -103,6 +129,15 @@ AppAsset::register($this);
         </p>
         </div>
     </footer>
+    <?php
+      Modal::begin([
+          'id' => 'logoutConfirm',
+          'header' => '<h2>' . Yii::t('app', 'Log out') . '</h2>',
+          'footer' => Html::a(Yii::t('app', 'Log out'), ['/site/logout'], ['class' => 'btn btn-default'])
+      ]);
+      echo Yii::t('app', 'Are you sure you want to Log out?');
+      Modal::end();
+    ?>
     <?php $this->endBody() ?>
     <div style="display: none"><?= Yii::$app->setting->get('statisticsCode') ?></div>
 </body>

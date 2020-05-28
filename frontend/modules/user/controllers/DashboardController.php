@@ -19,7 +19,7 @@ use common\components\BaseController;
  */
 class DashboardController extends BaseController
 {
-    public $layout='dashboard';
+    // public $layout='main';
     
     /**
      * @inheritdoc

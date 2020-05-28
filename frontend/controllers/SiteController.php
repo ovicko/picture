@@ -69,7 +69,7 @@ class SiteController extends BaseController
 
     public function actionIndex()
     {
-        $this->layout = 'basic';
+        //$this->layout = 'basic';
         return $this->render('index');
     }
 
@@ -81,7 +81,8 @@ class SiteController extends BaseController
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->redirect(['/user/dashboard']);
+            return $this->goHome();
+            // return $this->redirect(['/user/dashboard']);
         } else {
             return $this->render('login', [
                 'model' => $model,
