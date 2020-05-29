@@ -42,10 +42,10 @@ class QuizAnswer extends \yii\db\ActiveRecord
     {
         return [
             'answer_id' => 'Answer ID',
-            'question_id' => 'Question ID',
+            'question_id' => 'Question',
             'answer' => 'Answer',
-            'category_id' => 'Category ID',
-            'post_id' => 'Post ID',
+            'category_id' => 'Category',
+            'post_id' => 'Post',
         ];
     }
 

@@ -35,22 +35,39 @@ $this->registerCss('.container { margin-left : 0px !important; } ');
           <?= DetailView::widget([
               'model' => $model,
               'attributes' => [
-                  'post_id',
+                  //'post_id',
                   'unique_id',
-                  'category_id',
-                  'main_image_url:url',
-                  'user_id',
-                  'region_id',
-                  'country_id',
+                  // '',
+                  [
+                      'attribute' => 'category_id',
+                      'value' => function($data) { 
+                        return Html::a($data->category->category_name, ['post/category?category_id='.$data->category->category_id], ['option' => 'value']);
+                    },
+                      'label'=> 'Category',
+                      'format'=> 'html'
+                  ],
+                  //'main_image_url:url',
+                  //'user_id',
+                  // 'region_id',
+                  // 'country_id',
+                  [
+                      'attribute' => 'city_id',
+                      'value' => function($data) { 
+                        // return Html::a($data->category->city_name, ['post/category?category_id='.$data->category->city_id], ['option' => 'value']);
+                        return $data->city->city_name;
+                    },
+                      'label'=> 'City',
+                      'format'=> 'html'
+                  ],
                   'views_count',
                   'resolution',
                   'camera',
-                  'device_name',
+                  // 'device_name',
                   'date_taken',
-                  'date_added',
+                  'date_added:datetime',
                   'tags:ntext',
-                  'status',
-                  'thumbnail_url:url',
+                  // 'status',
+                  //'thumbnail_url:url',
               ],
           ]) ?>
 

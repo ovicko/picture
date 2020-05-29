@@ -75,7 +75,7 @@ class ImagePost extends \yii\db\ActiveRecord
     {
         return [
             'post_id' => 'Post ID',
-            'unique_id' => 'Unique ID',
+            'unique_id' => 'Unique Code',
             'category_id' => 'Category',
             'main_image_url' => 'File',
             'mainImageUrl' => 'File',
@@ -121,4 +121,24 @@ class ImagePost extends \yii\db\ActiveRecord
             return false;
         }
    }
+
+   public function getCategory() {
+       return $this->hasOne(Category::className(), ['category_id' => 'category_id']);
+   }   
+
+   public function getRegion() {
+       return $this->hasOne(Region::className(), ['region_id' => 'region_id']);
+   }   
+
+   public function getCountry() {
+       return $this->hasOne(Country::className(), ['country_id' => 'country_id']);
+   }   
+
+   public function getUser() {
+       return $this->hasOne(User::className(), ['id' => 'user_id']);
+   }
+
+   public function getCity() {
+       return $this->hasOne(City::className(), ['city_id' => 'city_id']);
+   } 
 }

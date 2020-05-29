@@ -10,62 +10,24 @@ $this->title = $title;
 $this->params['title'] = $title;
 $this->params['breadcrumb'][] = Yii::t('app', 'Photos');
 $this->registerCss('
-.photo-index {
-  padding:0
-}
-.photo-item {
-      background: #fcfcfc;
-      margin-bottom: 20px;
-      -moz-border-radius: 3px;
-      -webkit-border-radius: 3px;
-      border-radius: 3px;
-      -moz-box-shadow: 0 3px 0 rgba(12,12,12,0.03);
-      -webkit-box-shadow: 0 3px 0 rgba(12,12,12,0.03);
-      box-shadow: 0 3px 0 rgba(12,12,12,0.03);
-      position: relative;
-}
-.photo-img img {
-  -moz-border-radius: 3px 3px 0 0;
-  -webkit-border-radius: 3px 3px 0 0;
-  border-radius: 3px 3px 0 0;
-}
-.photo-details {
-  padding: 10px;
-  font-weight: bold;
-  border-top: 1px solid #e7e7e7;
-  color: #777;
-  line-height: 15px;
-  font-size: 11px;
-}
-.photo-details:hover {
-  background: #f1f1f1;
-}
-.photo-title {
-  margin: 0;
-  font-weight: normal;
-}
-.user-image, .user-image img {
-    position: relative;
-  border-radius: 2px;
-  float: left;
-  height: 30px;
-  margin-right: 5px;
-  width: 30px;
-}
-.photo-at {
-  white-space: nowrap;
-  overflow: hidden;
-  -ms-text-overflow: ellipsis;
-  text-overflow: ellipsis;
-}
-.album-title {
-  white-space: nowrap;
-  overflow: hidden;
-  -ms-text-overflow: ellipsis;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  display: block;
-}
+  .overlay {
+    position: absolute; 
+    bottom: 0; 
+    background: rgb(0, 0, 0);
+    background: rgba(0, 0, 0, 0.5); /* Black see-through */
+    color: #f1f1f1; 
+    width: 100%;
+    transition: .5s ease;
+    opacity:0;
+    color: white;
+    font-size: 20px;
+    padding: 20px;
+    text-align: center;
+  }
+
+  .column:hover .overlay {
+    opacity: 1;
+  }
 
 * {
   box-sizing: border-box;
@@ -114,9 +76,11 @@ $this->registerCss('
 ?>
 <div class="row">
   <?php foreach ($listDataProvider->getModels() as $photo): ?>
-    <div class="column">
-      <img src="<?= Yii::getAlias('@web') .'/uploads/posts/'.$photo->thumbnail_url ?>" style="width: 100%" />
-      <!-- <div class="titleBox">Test Post <?= $photo->post_id ?></div> -->
+    <div class="column" style="position: relative;">
+      <a href="<?= Url::to(['post/view?id='.$photo->post_id]) ?>">
+      <img src="<?= Yii::getAlias('@web') .'/uploads/posts/'.$photo->thumbnail_url ?>" style="width: 100%; height: 284px" />
+      <div class="overlay"><?= $photo->user->username ?></div>
+      </a>
     </div>
   <?php endforeach ?>
   <?= LinkPager::widget([
