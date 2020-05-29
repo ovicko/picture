@@ -140,8 +140,12 @@ class PostController extends Controller
      */
     public function actionView($id)
     {
+        $quizAnswer = QuizAnswer::find()->where(['post_id'=>$id])->all();
+
+
         return $this->render('view', [
             'model' => $this->findModel($id),
+            'quizAnswer' => $quizAnswer
         ]);
     }
 

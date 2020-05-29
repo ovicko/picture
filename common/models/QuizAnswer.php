@@ -48,4 +48,8 @@ class QuizAnswer extends \yii\db\ActiveRecord
             'post_id' => 'Post ID',
         ];
     }
+
+    public function getQuestion() {
+        return $this->hasOne(CategoryQuestion::className(), ['question_id' => 'question_id']);
+    }  
 }
