@@ -20,7 +20,7 @@ class CategoryQuestion extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'pre_category_question';
+        return '{{%category_question}}';
     }
 
     /**

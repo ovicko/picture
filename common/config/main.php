@@ -19,6 +19,10 @@ return [
 
         'util' => [
             'class' => 'common\components\Util',
+        ],        
+
+        'image' => [
+            'class' => 'common\components\Image',
         ],
 
 

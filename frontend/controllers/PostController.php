@@ -4,7 +4,10 @@ namespace frontend\controllers;
 
 use Yii;
 use common\models\City;
+use common\models\QuizAnswer;
+use common\models\CategoryQuestion;
 use common\models\ImagePost;
+use common\models\HelperModel;
 use common\models\ImagePostSearch;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
@@ -12,6 +15,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
+use yii\db\Expression;
 
 /**
  * PostController implements the CRUD actions for ImagePost model.
@@ -28,7 +32,13 @@ class PostController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['create','category', 'update', 'delete'],
+                        'actions' => ['category', 'city-list', 'view'],
+                        'allow' => true,
+                        'roles' => ['?','@'],
+                    ],                    
+
+                    [
+                        'actions' => ['create','category', 'category-question', 'update', 'delete'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -69,6 +79,56 @@ class PostController extends Controller
         return $this->render('search_result', [
             'listDataProvider' => $listDataProvider,
         ]);
+    }    
+
+    public function actionCategoryQuestion($post_id,$category_id)
+    {
+        if (isset($post_id) && isset($category_id)) {
+
+            $questions = CategoryQuestion::find()
+                ->where(['category_id' => (int)$category_id])
+                ->orderBy(new Expression('rand()'))
+                ->limit(3)->all();
+
+            $answerModel = new QuizAnswer;
+
+            if ($answerModel->load(Yii::$app->request->post())) { 
+
+                $modelsQuizAnswer = HelperModel::createMultiple(QuizAnswer::classname());
+                HelperModel::loadMultiple($modelsQuizAnswer, Yii::$app->request->post());
+                $valid = HelperModel::validateMultiple($modelsQuizAnswer);
+
+                if ($valid) {
+                    $transaction = \Yii::$app->db->beginTransaction();
+                    try {
+
+                        foreach ($modelsQuizAnswer as $answer) {
+                            $answer->category_id = $category_id;
+                            $answer->post_id = $post_id;
+                            if (! ($flag = $answer->save(false))) {
+                                $transaction->rollBack();
+                                break;
+                            }
+                        }
+
+                        if ($flag) {
+                            $transaction->commit();
+                            return $this->redirect(['view', 'id' => $post_id]);
+                        }
+                    } catch (Exception $e) {
+                        $transaction->rollBack();
+                    }
+                }
+            }
+
+            return $this->render('question', [
+                'answerModel' => $answerModel,
+                'questions' => $questions,
+            ]);
+        }
+
+        throw new NotFoundHttpException('The requested page does not exist.');
+
     }
 
 

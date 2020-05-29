@@ -18,7 +18,8 @@
         "rmrevin/yii2-minify-view": "^1.13",
         "codeception/base": "^2.2",
         "kartik-v/yii2-widget-depdrop": "dev-master",
-        "kartik-v/yii2-widget-fileinput": "dev-master"
+        "kartik-v/yii2-widget-fileinput": "dev-master",
+        "wbraganca/yii2-dynamicform": "*"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "*",
