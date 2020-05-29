@@ -203,7 +203,12 @@ class PostController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $model = $this->findModel($id);
+
+        if (Yii::$app->user->identity->id == $model->user_id ) { 
+
+            $model->delete();
+        }
 
         return $this->redirect(['index']);
     }

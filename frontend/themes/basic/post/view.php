@@ -7,45 +7,45 @@ use yii\widgets\DetailView;
 /* @var $model common\models\ImagePost */
 
 $this->title = $model->post_id;
-$this->params['breadcrumbs'][] = ['label' => 'Image Posts', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
 <div class="image-post-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
+    <?php if (Yii::$app->user->identity->id == $model->user_id ) { ?>
+        <p>
+            <?= Html::a('Delete', ['delete', 'id' => $model->post_id], [
+                'class' => 'btn btn-danger',
+                'data' => [
+                    'confirm' => 'Are you sure you want to delete this item?',
+                    'method' => 'post',
+                ],
+            ]) ?>
+        </p>
+    <?php } ?>
 
-    <p>
-        <?= Html::a('Update', ['update', 'id' => $model->post_id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->post_id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'post',
-            ],
-        ]) ?>
-    </p>
 
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'post_id',
-            'unique_id',
-            'category_id',
-            'main_image_url:url',
-            'user_id',
-            'region_id',
-            'country_id',
-            'views_count',
-            'resolution',
-            'camera',
-            'device_name',
-            'date_taken',
-            'date_added',
-            'tags:ntext',
-            'status',
+            // 'post_id',
+            // 'unique_id',
+            // 'category_id',
+            // 'main_image_url:url',
+            // 'user_id',
+            // 'region_id',
+            // 'country_id',
+            // 'views_count',
+            // 'resolution',
+            // 'camera',
+            // 'device_name',
+            // 'date_taken',
+            // 'date_added',
+            // 'tags:ntext',
+            // 'status',
             'thumbnail_url:url',
         ],
     ]) ?>
+    <img src="<?= Yii::getAlias('@web') .'/uploads/posts/'.$model->thumbnail_url ?>" style="width: 100%" />
 
 </div>
