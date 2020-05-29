@@ -9,10 +9,10 @@ use common\widgets\user\UserProfile;
 
 $this->title = $model->post_id;
 \yii\web\YiiAsset::register($this);
-$this->registerCss('.container { margin-left : 0px !important; } ');
+// $this->registerCss('.container { margin-left : 0px !important; } ');
 ?>
   <div class="row">
-    <div class="col-md-10">
+    <div class="col-xs-9">
 
         <img src="<?= Yii::getAlias('@web') .'/uploads/posts/'.$model->thumbnail_url ?>" style="width: 100%" />
         <div class="clearfix"></div>
@@ -30,7 +30,7 @@ $this->registerCss('.container { margin-left : 0px !important; } ');
         <h4><strong>Comments</strong></h4>
 
     </div>
-      <div class="col-md-2">
+      <div class="col-xs-3">
           <?= UserProfile::widget(['user_id' => $model->user_id]) ?>
           <?= DetailView::widget([
               'model' => $model,

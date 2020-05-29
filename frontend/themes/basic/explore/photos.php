@@ -72,8 +72,20 @@ $this->registerCss('
     max-width: 100%;
   }
 }
+
+.jumbotron {
+    color: #2c3e50;
+    background: #ecf0f1;
+}
 ');
 ?>
+
+    <div class="jumbotron jumbotron-fluid">
+
+         <h1><span class="glyphicon glyphicon-camera"></span> The Picture Gallery</h1>
+         <p>A bunch of images depicting daily life of users.</p>
+         <p>Trending images might go here soon.</p>
+    </div>
 <div class="row">
   <?php foreach ($listDataProvider->getModels() as $photo): ?>
     <div class="column" style="position: relative;">
