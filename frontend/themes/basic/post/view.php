@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use common\widgets\user\UserProfile;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\ImagePost */
@@ -15,9 +16,14 @@ $this->registerCss('.container { margin-left : 0px !important; } ');
 
         <img src="<?= Yii::getAlias('@web') .'/uploads/posts/'.$model->thumbnail_url ?>" style="width: 100%" />
         <div class="clearfix"></div>
-        <?php foreach ($quizAnswer as $quiz) { ?>
+        <?php if ($quizAnswer) {
+
+         foreach ($quizAnswer as $quiz) :  ?>
                <h4><?= $quiz->question->content ?></h4>
                <p><?= $quiz->answer ?></p>
+        <?php endforeach ?>
+        <?php } else { ?>
+            <p>No Q&A for now</p>
         <?php } ?>
 
         <div class="clearfix"></div>
@@ -25,7 +31,7 @@ $this->registerCss('.container { margin-left : 0px !important; } ');
 
     </div>
       <div class="col-md-2">
-          <h1><?= Html::encode($this->title) ?></h1>
+          <?= UserProfile::widget(['user_id' => $model->user_id]) ?>
           <?= DetailView::widget([
               'model' => $model,
               'attributes' => [
@@ -47,7 +53,8 @@ $this->registerCss('.container { margin-left : 0px !important; } ');
                   'thumbnail_url:url',
               ],
           ]) ?>
-          <?php if (Yii::$app->user->identity->id == $model->user_id ) { ?>
+
+          <?php if (!Yii::$app->user->isGuest && Yii::$app->user->identity->id == $model->user_id ) { ?>
               <p>
                   <?= Html::a('Delete', ['delete', 'id' => $model->post_id], [
                       'class' => 'btn btn-danger',
