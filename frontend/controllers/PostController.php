@@ -164,7 +164,7 @@ class PostController extends Controller
 
             if ($model->validate() && $model->save(false)) { 
                 //return $this->redirect(['view', 'id' => $model->post_id]);
-                return $this->redirect(['explore/photos', 'id' => $model->post_id]);
+                return $this->redirect(['category-question', 'post_id' => $model->post_id,'category_id'=>$model->category_id]);
             }
             
         }
