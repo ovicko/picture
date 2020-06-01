@@ -1,7 +1,7 @@
 html,
 body {
     height: 100%;
-    padding-top: 35px;
+    /*padding-top: 35px;*/
     /*background-color: #eef0f3;*/
 }
 
@@ -302,4 +302,8 @@ center img {
 }
 .navbar-custom .icon-bar {
     background-color:#33aa33;
+}
+
+.nav > li > a {
+  color: #212529 !important;
 }

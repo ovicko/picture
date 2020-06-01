@@ -19,7 +19,8 @@
         "codeception/base": "^2.2",
         "kartik-v/yii2-widget-depdrop": "dev-master",
         "kartik-v/yii2-widget-fileinput": "dev-master",
-        "wbraganca/yii2-dynamicform": "*"
+        "wbraganca/yii2-dynamicform": "*",
+        "yiisoft/yii2-bootstrap4": "^2.0"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "*",

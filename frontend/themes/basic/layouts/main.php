@@ -49,7 +49,8 @@ AppAsset::register($this);
                 'brandLabel' => 'Picture',
                 'brandUrl' => Yii::$app->homeUrl,
                 'options' => [
-                    'class' => 'navbar-custom navbar-fixed-top',
+                    'class' => 'navbar fixed-top navbar-expand-md navbar-light',
+                    'style'=> 'background-color: #fcc573;'
                 ],
             ]);
 
@@ -74,7 +75,7 @@ AppAsset::register($this);
             } else {
                 $menuItems[] = ['label' => Yii::t('app', 'Dashboard'), 'url' => ['/user/dashboard']];
                 $menuItems[] = [
-                    'label' => '<i class="glyphicon glyphicon-chevron-down"></i> ' .  Yii::$app->user->identity->username,
+                    'label' => Yii::$app->user->identity->username,
                     
                     'items' => [
                          [
