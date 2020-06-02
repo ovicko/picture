@@ -9,83 +9,120 @@ $title = Yii::t('app', 'Explore') . ' - ' . Yii::t('app', 'Photos');
 $this->title = $title;
 $this->params['title'] = $title;
 $this->params['breadcrumb'][] = Yii::t('app', 'Photos');
-$this->registerCss('
-  .overlay {
-    position: absolute; 
-    bottom: 0; 
-    background: rgb(0, 0, 0);
-    background: rgba(0, 0, 0, 0.5); /* Black see-through */
-    color: #f1f1f1; 
-    width: 100%;
-    transition: .5s ease;
-    opacity:0;
-    color: white;
-    font-size: 20px;
-    padding: 20px;
-    text-align: center;
-  }
-
-  .column:hover .overlay {
-    opacity: 1;
-  }
-
-* {
-  box-sizing: border-box;
-}
-
-.row {
-  display: -ms-flexbox; /* IE10 */
-  display: flex;
-  -ms-flex-wrap: wrap; /* IE10 */
-  flex-wrap: wrap;
-  padding: 0 4px;
-}
-
-/* Create four equal columns that sits next to each other */
-.column {
-  -ms-flex: 25%; /* IE10 */
-  flex: 25%;
-  max-width: 25%;
-  padding: 0 4px;
-}
-
-.column img {
-  margin-top: 8px;
-  vertical-align: middle;
-  width: 100%;
-}
-
-/* Responsive layout - makes a two column-layout instead of four columns */
-@media screen and (max-width: 800px) {
-  .column {
-    -ms-flex: 50%;
-    flex: 50%;
-    max-width: 50%;
-  }
-}
-
-/* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
-@media screen and (max-width: 600px) {
-  .column {
-    -ms-flex: 100%;
-    flex: 100%;
-    max-width: 100%;
-  }
-}
-
-');
+$this->registerCss('');
 ?>
 
 <div class="row">
-  <?php foreach ($listDataProvider->getModels() as $photo): ?>
-    <div class="column" style="position: relative;">
-      <a href="<?= Url::to(['post/view?id='.$photo->post_id]) ?>">
-      <img src="<?= Yii::getAlias('@web') .'/uploads/posts/'.$photo->thumbnail_url ?>" style="width: 100%; height: 284px" />
-      <div class="overlay"><?= $photo->user->username ?></div>
-      </a>
+  <div class="col-md-3">
+    <div class="card">
+        <div class="card-body">
+            <div class="h5">Amwollo</div>
+            <div class="h7 text-muted">More work to be done</div>
+            <div class="h7">Developer of web applications etc.
+            </div>
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+                <div class="h6 text-muted">Followers</div>
+                <div class="h5">52342</div>
+            </li>
+            <li class="list-group-item">
+                <div class="h6 text-muted">Following</div>
+                <div class="h5">6758</div>
+            </li>
+        </ul>
     </div>
-  <?php endforeach ?>
-  <?= LinkPager::widget([
-      'pagination' => $listDataProvider->getPagination()
-  ]); ?>
+    <div class="card gedf-card border-rounded">
+        <div class="card-body">
+            <h5 class="card-title">Home</h5>
+            <h5 class="card-title">Notifications</h5>
+            <h5 class="card-title">Messages</h5>
+            <h5 class="card-title">Profile</h5>
+            <h5 class="card-title">Help</h5>
+        </div>
+    </div>
+  </div>
+  <div class="col-md-6 gedf-main">
+    <div class="card gedf-card">
+        <div class="card-header">
+            <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="posts-tab" data-toggle="tab" href="#posts" role="tab" aria-controls="posts" aria-selected="true">Video </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="images-tab" data-toggle="tab" role="tab" aria-controls="images" aria-selected="false" href="#images">Images</a>
+                </li>
+            </ul>
+        </div>
+        <div class="card-body">
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="posts" role="tabpanel" aria-labelledby="posts-tab">
+                    <div class="form-group">
+                        <label class="sr-only" for="message">Post</label>
+                        <textarea class="form-control" id="message" rows="3" placeholder="What are you thinking?"></textarea>
+                    </div>
+
+                </div>
+                <div class="tab-pane fade" id="images" role="tabpanel" aria-labelledby="images-tab">
+                    <div class="form-group">
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="customFile">
+                            <label class="custom-file-label" for="customFile">Upload image</label>
+                        </div>
+                    </div>
+                    <div class="py-4"></div>
+                </div>
+            </div>
+            <div class="btn-toolbar justify-content-between">
+                <div class="btn-group">
+                    <button type="submit" class="btn btn-primary">share</button>
+                </div>
+                <div class="btn-group">
+                    <button id="btnGroupDrop1" type="button" class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false">
+                        <i class="fa fa-globe"></i>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="btnGroupDrop1">
+                        <a class="dropdown-item" href="#"><i class="fa fa-globe"></i> Public</a>
+                        <a class="dropdown-item" href="#"><i class="fa fa-users"></i> Friends</a>
+                        <a class="dropdown-item" href="#"><i class="fa fa-user"></i> Just me</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <?=
+    \yii\widgets\ListView::widget([
+        'dataProvider' => $listDataProvider,
+        'options' => [
+            'tag' => 'div',
+            'class' => 'list-wrapper',
+            'id' => 'list-wrapper',
+        ],
+        'layout' => "{pager}\n{items}\n{summary}",
+        'itemView' => function ($model, $key, $index, $widget) {
+            return $this->render('_image_post',['model' => $model]);
+        },
+        'itemOptions' => [
+            'tag' => false,
+        ],
+        'pager' => [
+            'firstPageLabel' => 'first',
+            'lastPageLabel' => 'last',
+            'nextPageLabel' => 'next',
+            'prevPageLabel' => 'previous',
+            'maxButtonCount' => 3,
+        ],
+    ]);
+    ?>
+  </div>
+  <div class="col-md-3">
+                 <div class="card gedf-card border-rounded">
+                  <div class="card-header bg-dark" style="color: #fff;">Trending</div>
+                     <div class="card-body">
+                         <h5 class="card-title">Trending photos</h5>
+                     </div>
+                 </div>
+             </div>
 </div>

@@ -113,7 +113,7 @@ AppAsset::register($this);
             NavBar::end();
         ?>
 
-        <div class="container-fluid">
+        <div class="container-fluid gedf-wrapper">
             <?= Alert::widget() ?>
             <?= $content ?>
         </div>
