@@ -49,7 +49,7 @@ AppAsset::register($this);
                 'brandLabel' => 'Picture',
                 'brandUrl' => Yii::$app->homeUrl,
                 'options' => [
-                    'class' => 'navbar fixed-top navbar-expand-md navbar-light',
+                    'class' => 'navbar navbar-fixed-top navbar-expand-md navbar-light',
                     'style'=> 'background-color: #fcc573;'
                 ],
             ]);
