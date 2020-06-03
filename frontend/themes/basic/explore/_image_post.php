@@ -39,4 +39,5 @@
         <a href="#" class="card-link"><i class="fa fa-comment"></i> Comment</a>
         <a href="#" class="card-link"><i class="fa fa-mail-forward"></i> Share</a>
     </div>
+    <?= app\widgets\comment\PostComment::widget(['postId' => $model->post_id]) ?>
 </div>

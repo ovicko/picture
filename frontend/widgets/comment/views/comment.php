@@ -39,7 +39,7 @@ $this->registerCss('
 ?>
 
 <div class="comment-all">
-    <header><span><?= Yii::t('app', 'Comment') ?></span></header>
+    <header><span><?= Yii::t('app', 'Comments') ?></span></header>
     <ul class="media-list">
         <?php foreach ($commentList as $comment): ?>
         <li class="media" data-key="<?= $comment['id'] ?>">
