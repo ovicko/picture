@@ -9,29 +9,73 @@ $title = Yii::t('app', 'Explore') . ' - ' . Yii::t('app', 'Photos');
 $this->title = $title;
 $this->params['title'] = $title;
 $this->params['breadcrumb'][] = Yii::t('app', 'Photos');
-$this->registerCss('');
+$this->registerCss('h1{float:left; width:100%; color:#232323; margin-bottom:30px; font-size: 14px;}
+h1 span{font-family: "Libre Baskerville", serif; display:block; font-size:45px; text-transform:none; margin-bottom:20px; margin-top:30px; font-weight:700}
+h1 a{color:#131313; font-weight:bold;}
+');
+$this->registerJsFile('@web/js/jquery.timeago.js',['depends' => [\yii\web\JqueryAsset::className()]]);
+
+$this->registerJs('
+  jQuery(document).ready(function() {
+    jQuery("time.timeago").timeago();
+  });
+
+  jQuery(document).on("pjax:success", function(event){
+              jQuery("time.timeago").timeago();
+            }
+          );
+
+  function postComment (formElement,post_id) {
+     $(formElement).on("beforeSubmit", function (e) {
+      // e.preventDefault()
+         var form = $(this);
+
+         if (form.find(".has-error").length)  {
+          $(form).trigger("reset");
+             return false;
+         }
+         // submit form
+         $("#new_comment_btn_"+post_id).off("click");
+
+         $.ajax({
+             url    : form.attr("action"),
+             type   : "post",
+             data   : form.serialize(),
+             async:false,
+             beforeSend : function(data){ 
+                   $("#new_comment_btn_"+post_id).prop("disabled",true)
+              },
+
+            complete : function(data){ 
+                   $("#new_comment_btn_"+post_id).prop("disabled",false)
+            },
+             success: function (response)  {
+                $(form).trigger("reset");
+                console.log(response)
+                $.pjax.reload({container:"#post_comment_list_"+post_id,async: false}); 
+             },
+             error  : function () {
+                 console.log("internal server error");
+             }
+         });
+         return false;
+      });
+  }
+
+');
 ?>
 
 <div class="row">
-  <div class="col-md-3">
-    <div class="card">
-        <div class="card-body">
-            <div class="h5">Amwollo</div>
-            <div class="h7 text-muted">More work to be done</div>
-            <div class="h7">Developer of web applications etc.
-            </div>
-        </div>
-        <ul class="list-group list-group-flush">
-            <li class="list-group-item">
-                <div class="h6 text-muted">Followers</div>
-                <div class="h5">52342</div>
-            </li>
-            <li class="list-group-item">
-                <div class="h6 text-muted">Following</div>
-                <div class="h5">6758</div>
-            </li>
-        </ul>
-    </div>
+  <div class="col-md-3 mt-3">
+
+    <?php if (!Yii::$app->user->isGuest) { ?>
+          <div class="card-body pt-5">
+              <img src="<?= Yii::getAlias('@avatar'). Yii::$app->user->identity->avatar ?>" alt="profile-image" class="profile"/>
+              <h5 class="card-title text-center"><?= Yii::$app->user->identity->username ?></h5>
+          </div>
+    <?php }  ?>
+    <div class="card profile-card-4">
+
     <div class="card gedf-card border-rounded">
         <div class="card-body">
             <h5 class="card-title">Home</h5>
@@ -41,6 +85,7 @@ $this->registerCss('');
             <h5 class="card-title">Help</h5>
         </div>
     </div>
+  </div>
   </div>
   <div class="col-md-6 gedf-main">
     <div class="card gedf-card">
@@ -56,7 +101,7 @@ $this->registerCss('');
         </div>
         <div class="card-body">
             <div class="tab-content" id="myTabContent">
-                <div class="tab-pane fade show active" id="posts" role="tabpanel" aria-labelledby="posts-tab">
+                <div class="tab-pane show active" id="posts" role="tabpanel" aria-labelledby="posts-tab">
                     <div class="form-group">
                         <label class="sr-only" for="message">Post</label>
                         <textarea class="form-control" id="message" rows="3" placeholder="What are you thinking?"></textarea>
@@ -101,8 +146,11 @@ $this->registerCss('');
             'id' => 'list-wrapper',
         ],
         'layout' => "{pager}\n{items}\n{summary}",
-        'itemView' => function ($model, $key, $index, $widget) {
-            return $this->render('_image_post',['model' => $model]);
+        'itemView' => function ($model, $key, $index, $widget) use ($commentModel) {
+            return $this->render('_image_post',[
+              'model' => $model,
+              'commentModel' => $commentModel
+            ]);
         },
         'itemOptions' => [
             'tag' => false,

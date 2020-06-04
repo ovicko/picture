@@ -9,6 +9,7 @@ use common\models\CategoryQuestion;
 use common\models\ImagePost;
 use common\models\HelperModel;
 use common\models\ImagePostSearch;
+use common\models\ImagePostComment;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -32,13 +33,13 @@ class PostController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['category', 'city-list', 'view'],
+                        'actions' => ['category', 'city-list', 'view', 'comment'],
                         'allow' => true,
                         'roles' => ['?','@'],
                     ],                    
 
                     [
-                        'actions' => ['create','category', 'category-question', 'update', 'delete'],
+                        'actions' => ['create', 'comment','add-comment','category', 'category-question', 'update', 'delete'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -61,9 +62,11 @@ class PostController extends Controller
     {
         $searchModel = new ImagePostSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $commentModel = new ImagePostComment();
 
         return $this->render('index', [
             'searchModel' => $searchModel,
+            'commentModel' => $commentModel,
             'dataProvider' => $dataProvider,
         ]);
     }
@@ -79,7 +82,42 @@ class PostController extends Controller
         return $this->render('search_result', [
             'listDataProvider' => $listDataProvider,
         ]);
-    }    
+    }   
+
+
+    public function actionAddComment()
+    {
+        if (Yii::$app->request->isAjax) {
+            $data = Yii::$app->request->post();
+            $model = new ImagePostComment();
+            $model->post_id = $data['ImagePostComment']['post_id'];
+            $model->comment = $data['ImagePostComment']['comment'];
+
+            $response = array();
+
+            if ($model->validate() && $model->save()) {
+              echo json_encode(['success' => true ]);
+            }
+            echo json_encode(['success' => false ]);
+        }
+    }
+
+
+    public function actionComment($post_id=0)
+     {
+        $listDataProvider = new \yii\data\ActiveDataProvider([
+            'query' => ImagePostComment::find()->where(['post_id' => $post_id])->orderBy('date_added DESC'),
+            'pagination' => [
+                'pageSize' => 20,
+            ],
+        ]);
+
+        $commentModel = new ImagePostComment();
+
+        echo $this->renderPartial('comment', [
+            'listDataProvider' => $listDataProvider,
+        ]);
+     } 
 
     public function actionCategoryQuestion($post_id,$category_id)
     {

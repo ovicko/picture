@@ -64,8 +64,8 @@ class ImagePostComment extends \yii\db\ActiveRecord
         if (parent::beforeSave($insert)) {
             if ($this->isNewRecord) {
                 $this->user_id = Yii::$app->user->id;
-                $this->user_name = Yii::$app->user->username;
-                $this->date_added = time();
+                $this->user_name = Yii::$app->user->identity->username;
+                $this->date_added = date('Y-m-d H:i:s');
             }
             return true;
         } else {
