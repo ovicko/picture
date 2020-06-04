@@ -3,7 +3,6 @@ use yii\helpers\Url;
 
 $userData = Yii::$app->userData->getKey(true);
 ?>
-<?php $this->beginContent('@app/modules/user/views/layouts/user.php'); ?>
 <div class="social-wrapper row">
     <div id="social-container">
         <div class="row hidden-xs">

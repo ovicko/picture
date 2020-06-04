@@ -12,21 +12,21 @@ $this->registerJs(
 );
 ?>
 <div class="card gedf-card">
-    <div class="card-header">
+    <div class="card-header bg-white">
         <div class="d-flex justify-content-between align-items-center">
             <div class="d-flex justify-content-between align-items-center">
                 <div class="mr-2">
                     <img class="rounded-circle" width="45" src="<?= Yii::getAlias('@avatar'). $model->user->avatar ?>" alt="">
                 </div>
                 <div class="ml-2">
-                    <div class="h5 m-0"><?= $model->user->username ?></div>
-                    <div class="h7 text-muted"></div>
+                    <div class="h4 m-0"><?= $model->user->username ?></div>
+                    <div class="h6 text-muted"><time class="timeago" datetime="<?= $model->date_added ?>"><?= $model->date_added ?></time></div>
                 </div>
             </div>
             <div>
                 <div class="dropdown">
                     <button class="btn btn-link dropdown-toggle" type="button" id="gedf-drop1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fa fa-ellipsis-h"></i>
+                        <i class="glyphicon glyphicon-option-vertical"></i>
                     </button>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="gedf-drop1">
                         <a class="dropdown-item" href="#">Send Message</a>
@@ -39,7 +39,6 @@ $this->registerJs(
 
     </div>
     <div class="card-body">
-        <div class="text-muted h7 mb-2"> <i class="fa fa-clock-o"></i>10 min ago</div>
         <a class="card-link" href="#">
             <h5 class="card-title">Photo caption holder to be addressed</h5>
         </a>
