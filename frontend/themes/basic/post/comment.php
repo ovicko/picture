@@ -10,7 +10,7 @@ use yii\widgets\LinkPager;
 /* @var $model app\widgets\comment\models\Comment */
 /* @var $form yii\widgets\ActiveForm */
 
-$this->registerJs('');
+// $this->registerJs('');
 $this->registerCss('
     .comment-all {
         padding: 20px;

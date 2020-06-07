@@ -7,8 +7,9 @@ use yii\widgets\LinkPager;
 $title = Yii::t('app', 'Explore') . ' - ' . Yii::t('app', 'Photos');
 
 $this->title = $title;
-$this->params['title'] = $title;
-$this->params['breadcrumb'][] = Yii::t('app', 'Photos');
+
+$commentModel = new \common\models\ImagePostComment();
+
 $this->registerCss('h1{float:left; width:100%; color:#232323; margin-bottom:30px; font-size: 14px;}
 h1 span{font-family: "Libre Baskerville", serif; display:block; font-size:45px; text-transform:none; margin-bottom:20px; margin-top:30px; font-weight:700}
 h1 a{color:#131313; font-weight:bold;}

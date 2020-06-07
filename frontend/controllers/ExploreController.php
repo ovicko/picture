@@ -66,7 +66,7 @@ class ExploreController extends BaseController
         return $this->render('photos', [
             'photos' => Explore::getAllPhotos(),
             'listDataProvider' => $listDataProvider,
-            'commentModel' => new \common\models\ImagePostComment()
+            
         ]);
     }
 

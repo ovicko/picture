@@ -48,7 +48,16 @@ $this->title = $model->post_id;
                   ],
                   //'main_image_url:url',
                   //'user_id',
-                  // 'region_id',
+                  // '',
+                  [
+                      'attribute' => 'region_id',
+                      'value' => function($data) { 
+                        // return Html::a($data->category->city_name, ['post/category?category_id='.$data->category->city_id], ['option' => 'value']);
+                        return $data->region->region_name;
+                    },
+                      'label'=> 'Region',
+                      'format'=> 'html'
+                  ],
                   // 'country_id',
                   [
                       'attribute' => 'city_id',

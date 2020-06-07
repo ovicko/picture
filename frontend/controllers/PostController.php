@@ -18,6 +18,10 @@ use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
 use yii\db\Expression;
 
+Yii::setAlias('forum_icon', '@web/uploads/forum/icon/');
+Yii::setAlias('avatar', '@web/uploads/user/avatar/');
+Yii::setAlias('photo', '@web/uploads/home/photo/');
+
 /**
  * PostController implements the CRUD actions for ImagePost model.
  */
@@ -74,12 +78,15 @@ class PostController extends Controller
     public function actionCategory($category_id)
     {
         $listDataProvider = new \yii\data\ActiveDataProvider([
-            'query' => ImagePost::find()->where(['category_id' => (int)$category_id,'status' => 10])->orderBy('post_id DESC'),
+            'query' => ImagePost::find()->where([
+                'category_id' => (int)$category_id,
+                'status' => 10])->orderBy('post_id DESC'),
             'pagination' => [
                 'pageSize' => 20,
             ],
         ]);
-        return $this->render('search_result', [
+
+        return $this->render('//explore/photos', [
             'listDataProvider' => $listDataProvider,
         ]);
     }   

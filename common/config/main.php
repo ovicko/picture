@@ -5,6 +5,7 @@ return [
       '@bower' => '@vendor/bower-asset',
       '@npm'   => '@vendor/npm-asset',
     ],
+    'timeZone' =>'Africa/Nairobi',
     'components' => [
         'cache' => [
             'class' => 'yii\caching\FileCache',

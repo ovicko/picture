@@ -59,7 +59,7 @@ AppAsset::register($this);
             ];
 
             $menuItems[] = [
-                'label' => 'Picture Categories',
+                'label' => 'Choose Categories',
                 'items' => $categoryMenu
             ]; 
 
