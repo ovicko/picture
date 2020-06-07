@@ -4,6 +4,7 @@ namespace frontend\controllers;
 
 use Yii;
 use common\models\City;
+use common\models\Country;
 use common\models\QuizAnswer;
 use common\models\CategoryQuestion;
 use common\models\ImagePost;
@@ -37,7 +38,7 @@ class PostController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['category', 'city-list', 'view', 'comment'],
+                        'actions' => ['category', 'city-list','country-list', 'view', 'comment'],
                         'allow' => true,
                         'roles' => ['?','@'],
                     ],                    
@@ -211,7 +212,26 @@ class PostController extends Controller
             $model->main_image_url = $imageName;
             $model->thumbnail_url = $imageName;
 
-            if ($model->validate() && $model->save(false)) { 
+            $exif = @exif_read_data(Yii::getAlias("@webroot").'/uploads/posts/'. $imageName);
+            $model->device_name = isset($exif['Make']) ? $exif['Make'] : null;
+            $model->camera =isset($exif['Model']) ? $exif['Model'] : null;
+
+    
+            if (isset($exif['DateTimeOriginal'])) {
+                $model->date_taken = $exif['DateTimeOriginal'];
+            } else if (isset($exif['DateTime'])) {
+                $model->date_taken = $exif['DateTime'];
+            } else {
+                $model->date_taken = null;
+            }
+            
+
+            $model->resolution = isset($exif['ImageWidth']) ? $exif['ImageWidth'].' x '.$exif['ImageLength'] : null;
+
+            if (empty($model->device_name) || empty($model->date_taken) || empty($model->camera) || empty($model->resolution)) {
+
+                $model->addError('mainImageUrl', 'Image info missing,upload an image taken by a Camera!');
+            } else if ($model->validate() && $model->save(false)) { 
                 //return $this->redirect(['view', 'id' => $model->post_id]);
                 return $this->redirect(['category-question', 'post_id' => $model->post_id,'category_id'=>$model->category_id]);
             }
@@ -277,6 +297,26 @@ class PostController extends Controller
                 // the getSubCatList function will query the database based on the
 
                 return ['output'=> $cities, 'selected'=>''];
+            }
+        }
+        return ['output'=>'', 'selected'=>''];
+    }    
+
+    public function actionCountryList() {
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $countries = [];
+        if (isset($_POST['depdrop_parents'])) {
+            $parents = $_POST['depdrop_parents'];
+            if ($parents != null) {
+                $country_id = $parents[0];
+
+                $countries = Country::find()
+                ->where(['region_id' => (int)$country_id])
+                ->select(['country_id AS id','country_name AS name'])
+                ->asArray()->all(); 
+                // the getSubCatList function will query the database based on the
+
+                return ['output'=> $countries, 'selected'=>''];
             }
         }
         return ['output'=>'', 'selected'=>''];

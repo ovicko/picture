@@ -10,7 +10,7 @@ use kartik\file\FileInput;
 
 use yii\helpers\ArrayHelper;
 use common\models\Category;
-use common\models\Country;
+use common\models\Region;
 /* @var $this yii\web\View */
 /* @var $model common\models\ImagePost */
 /* @var $form yii\widgets\ActiveForm */
@@ -18,8 +18,8 @@ use common\models\Country;
 $categories = Category::find()->all();
 $categoryData = ArrayHelper::map($categories,'category_id','category_name');
 
-$countries = Country::find()->all();
-$countryList = ArrayHelper::map($countries,'country_id','country_name');
+$regions = Region::find()->all();
+$regionList = ArrayHelper::map($regions,'region_id','region_name');
 
 ?>
 
@@ -44,7 +44,26 @@ $countryList = ArrayHelper::map($countries,'country_id','country_name');
         ['prompt'=>'--Select Category--']
         );
         ?>
-    <?= $form->field($model, 'country_id')->dropDownList($countryList, ['id'=>'country-id','prompt'=>'--Select Country--']) ?>
+    <?= $form->field($model, 'region_id')->dropDownList($regionList, ['id'=>'region-id','prompt'=>'--Select Region--']) ?>
+
+    <?= $form->field($model, 'country_id')->widget(DepDrop::classname(), [
+        'options'=>['id'=>'country-id'],
+        'pluginOptions'=>[
+            'depends'=>['region-id'],
+            'placeholder'=>'--Select Country--',
+            'url' => Url::to(['/post/country-list'])
+        ]
+    ]); ?>
+
+    <?= $form->field($model, 'city_id')->widget(DepDrop::classname(), [
+        'options'=>['id'=>'city-id'],
+        'pluginOptions'=>[
+            'depends'=>['country-id'],
+            'placeholder'=>'--Select City--',
+            'url' => Url::to(['/post/city-list'])
+        ]
+    ]); ?>
+
 
 
     <?= $form->field($model, 'tags')->textarea(['rows' => 1]) ?>

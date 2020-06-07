@@ -46,7 +46,7 @@ class ImagePost extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['category_id','country_id', 'city_id'], 'required'],           
+            [['category_id','country_id','region_id', 'city_id'], 'required'],           
 
             [['category_id', 'user_id', 'region_id', 'country_id', 'city_id', 'views_count', 'status'], 'integer'],
             
@@ -102,25 +102,46 @@ class ImagePost extends \yii\db\ActiveRecord
     */
     public function upload() {
         $fileName  = md5(time()).'_'.time() . '.' . $this->mainImageUrl->extension;
+
+        $path = Yii::getAlias("@frontend").'/web/uploads/posts/'. $fileName;
+
+       // $this->getImageProperties($path);
         
-        if ($this->mainImageUrl->saveAs(Yii::getAlias("@frontend").'/web/uploads/posts/'. $fileName,false)) {
+        if ($this->mainImageUrl->saveAs($path,false) ) {
+           
+            //$this->getImageProperties($path);
+
             return  $fileName;
         }
         return 'no_image_found.jpg';
     }
 
-    public function beforeSave($insert) {
+    public function getImageProperties($imagePath = ''){ 
+        $exif = @exif_read_data($image);
+        $this->device_name = $exif['Make'];
+        $this->camera = $exif['Model'];
 
-        if (parent::beforeSave($insert)) {
-            if ($this->isNewRecord) {
+        $this->date_taken = (isset($exif['DateTimeOriginal']))  ?  $exif['DateTimeOriginal'] : $exif['DateTime'];
 
-                $this->region_id = Country::countryRegion($this->country_id);
-            }
-            return true; 
-        } else {
-            return false;
-        }
-   }
+        $this->resolution = $exif['ImageWidth'].' x '.$exif['ImageLength'];
+
+        if ($this->device_name == null || $this->date_taken == null || $this->camera == null || $this->resolution == null ) {
+            $this->addError('mainImageUrl', 'Image info missing,upload an image taken by a Camera!');
+        }   
+    }
+
+   //  public function beforeSave($insert) {
+
+   //      if (parent::beforeSave($insert)) {
+   //          if ($this->isNewRecord) {
+
+   //              $this->region_id = Country::countryRegion($this->country_id);
+   //          }
+   //          return true; 
+   //      } else {
+   //          return false;
+   //      }
+   // }
 
    public function getCategory() {
        return $this->hasOne(Category::className(), ['category_id' => 'category_id']);
