@@ -184,13 +184,14 @@ class PostController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionView($id)
+    public function actionView($post='')
     {
-        $quizAnswer = QuizAnswer::find()->where(['post_id'=>$id])->all();
+        $postModel = $this->findModel($post);
 
+        $quizAnswer = QuizAnswer::find()->where(['post_id'=>$postModel->post_id])->all();
 
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $postModel,
             'quizAnswer' => $quizAnswer
         ]);
     }
@@ -330,9 +331,9 @@ class PostController extends Controller
      * @return ImagePost the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id)
+    protected function findModel($unique_id)
     {
-        if (($model = ImagePost::findOne($id)) !== null) {
+        if (($model = ImagePost::find()->where(['unique_id'=> $unique_id])->one()) !== null) {
             return $model;
         }
 
