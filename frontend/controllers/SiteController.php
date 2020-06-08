@@ -18,6 +18,9 @@ use yii\web\BadRequestHttpException;
 use common\components\BaseController;
 use yii\filters\AccessControl;
 
+use common\models\ImagePost;
+use yii\db\Expression;
+
 /**
  * Site controller
  *
@@ -69,12 +72,21 @@ class SiteController extends BaseController
 
     public function actionIndex()
     {
-        //$this->layout = 'basic';
-        return $this->render('index');
+        $this->layout = 'basic';
+        //random 15 images
+        $posts = ImagePost::find()->where(['status' => 10])->select(['unique_id','thumbnail_url'])
+            ->orderBy(new Expression('rand()'))
+            ->limit(15)->all();
+
+
+        return $this->render('index',[
+            'posts' => $posts
+        ]);
     }
 
     public function actionLogin()
     {
+        $this->layout = 'basic';
         if (!\Yii::$app->user->isGuest) {
             return $this->goHome();
         }
@@ -123,6 +135,7 @@ class SiteController extends BaseController
 
     public function actionSignup()
     {
+        $this->layout = 'basic';
         $model = new SignupForm();
         if ($model->load(Yii::$app->request->post())) {
             if ($user = $model->signup()) {

@@ -1,14 +1,14 @@
 <?php
 use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
-use yii\bootstrap\Nav;
-use yii\bootstrap\NavBar;
+use yii\bootstrap4\Nav;
+use yii\bootstrap4\NavBar;
 use yii\widgets\Breadcrumbs;
 use frontend\assets\AppAsset;
 use common\widgets\Alert;
 use common\models\Category;
 use common\models\Country;
-use yii\bootstrap\Modal;
+use yii\bootstrap4\Modal;
 
 $categories = Category::find()->all();
 
@@ -139,7 +139,7 @@ AppAsset::register($this);
     <?php
       Modal::begin([
           'id' => 'logoutConfirm',
-          'header' => '<h2>' . Yii::t('app', 'Log out') . '</h2>',
+          'title' => '<h2>' . Yii::t('app', 'Log out') . '</h2>',
           'footer' => Html::a(Yii::t('app', 'Log out'), ['/site/logout'], ['class' => 'btn btn-default'])
       ]);
       echo Yii::t('app', 'Are you sure you want to Log out?');
