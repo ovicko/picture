@@ -89,12 +89,21 @@ AppAsset::register($this);
 
                         ],
                         [ 
-                            'label' => '<i class="glyphicon glyphicon-edit"></i> Profile',
+                            'label' => 'My Profile',
+                            'url' => ['/user/view', 'id' => $user->username],
+                        ],                          
+
+                        [ 
+                            'label' => 'My Images',
+                            'url' => ['/user/view', 'id' => $user->username],
+                        ],
+                        [ 
+                            'label' => 'Messages',
                             'url' => ['/user/view', 'id' => $user->username],
                         ],                        
 
                         [ 
-                            'label' => '<i class="glyphicon glyphicon-cog"></i> Settings',
+                            'label' => 'Settings',
                             'url' => ['/user/setting'],
                         ],                        [ 
                             'label' => '<i class="glyphicon glyphicon-log-out"></i> Sign out',
@@ -113,7 +122,7 @@ AppAsset::register($this);
             NavBar::end();
         ?>
 
-        <div class="container-fluid gedf-wrapper">
+        <div class="container-fluid">
             <?= Alert::widget() ?>
             <?= $content ?>
         </div>
@@ -122,7 +131,7 @@ AppAsset::register($this);
     <footer class="footer">
         <div class="container">
         <p class="pull-left">&copy;
-         <?= Html::a(Yii::$app->setting->get('siteName'), ['/site/index']) ?> <?= date('Y') ?>
+         Picture Power <?= date('Y') ?>
 
         </p>
         </div>

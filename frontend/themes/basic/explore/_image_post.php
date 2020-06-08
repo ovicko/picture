@@ -1,6 +1,7 @@
 <?php
 use yii\widgets\Pjax;
 use yii\helpers\Html;
+use yii\helpers\Url;
 
 $this->registerJs(
    '$("document").ready(function(){ 
@@ -39,11 +40,11 @@ $this->registerJs(
 
     </div>
     <div class="card-body">
-        <a class="card-link" href="#">
+        <a class="card-link" href="<?= Url::to(['post/view','post' => $model->unique_id] )?>">
             <h5 class="card-title">Photo caption holder to be addressed</h5>
         </a>
 
-       	<img src="<?= Yii::getAlias('@web') .'/uploads/posts/'.$model->thumbnail_url ?>" class="img-fluid" style="width: 100%" />
+       	<img src="<?= Yii::$app->tools->resize('/uploads/posts/'.$model->thumbnail_url,200,200)  ?>" class="img-fluid" style="width: 200px;height: 200px;" />
     </div>
     <div class="card-footer">
         <div>

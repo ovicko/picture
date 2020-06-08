@@ -13,8 +13,7 @@ $this->title = $model->post_id;
 ?>
   <div class="row">
     <div class="col-xs-9">
-
-        <img src="<?= Yii::getAlias('@web') .'/uploads/posts/'.$model->thumbnail_url ?>" style="width: 100%" />
+        <img src="<?= Yii::$app->tools->resize('/uploads/posts/'.$model->thumbnail_url,960,640)  ?>" class="img-fluid" style="width: 960px;height: 640px;" />
         <div class="clearfix"></div>
         <?php if ($quizAnswer) {
 

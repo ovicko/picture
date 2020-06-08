@@ -3,154 +3,19 @@
 use yii\helpers\Url;
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
-use yii\bootstrap\Modal;
-use shiyang\infinitescroll\InfiniteScrollPager;
-
-/* @var $this yii\web\View */
 
 $this->title=Yii::$app->user->identity->username.' - '.Yii::t('app', 'Home');
 
-$userData = Yii::$app->userData->getKey(true);
+// $userData = Yii::$app->userData->getKey(true);
 ?>
-<div class="social-wrapper row">
-    <div id="social-container">
-        <div class="row hidden-xs">
-            <a class="col-lg-3 col-sm-6 col-xs-12" href="<?= Url::toRoute(['/home/feed']) ?>">
-                <div class="main-box infographic-box">
-                    <i class="glyphicon glyphicon-pencil text-primary"></i>
-                    <span class="headline"><?= Yii::t('app', 'Feed') ?></span>
-                    <span class="value"><?= $userData['feed_count'] ?></span>
-                </div>
-            </a>
-            <a class="col-lg-3 col-sm-6 col-xs-12" href="<?= Url::toRoute(['/home/post']) ?>">
-                <div class="main-box infographic-box">
-                    <i class="glyphicon glyphicon-list-alt text-warning"></i>
-                    <span class="headline"><?= Yii::t('app', 'Blog') ?></span>
-                    <span class="value"><?= $userData['post_count'] ?></span>
-                </div>
-            </a>
-            <a class="col-lg-3 col-sm-6 col-xs-12" href="<?= Url::toRoute(['/user/dashboard/following']) ?>">
-                <div class="main-box infographic-box">
-                    <i class="glyphicon glyphicon-eye-open text-success"></i>
-                    <span class="headline"><?= Yii::t('app', 'Following') ?></span>
-                    <span class="value"><?= $userData['following_count'] ?></span>
-                </div>
-            </a>
-            <a class="col-lg-3 col-sm-6 col-xs-12" href="<?= Url::toRoute(['/user/dashboard/follower']) ?>">
-                <div class="main-box infographic-box">
-                    <i class="glyphicon glyphicon-user text-info"></i>
-                    <span class="headline"><?= Yii::t('app', 'Follower') ?></span>
-                    <span class="value"><?= $userData['follower_count'] ?></span>
-                </div>
-            </a>
-        </div>
-        <div class="col-xs-12">
-            <?= Html::a(Yii::t('app', 'Upload'),['/post/create'], ['class' => 'btn btn-success']) ?>
 
-            <div class="item widget-container share-widget fluid-height clearfix">
-                <div class="widget-content padded">
-                    <?php $form = ActiveForm::begin([
-                        'enableClientValidation' => false,
-                        'options' => ['id' => 'create-feed']
-                    ]); ?>
-
-                    <?= $form->field($newFeed, 'content', ['inputOptions' => ['placeholder' => Yii::t('app', 'Record people around, things around.')]])->textarea(['rows' => 3])->label(false) ?>
-                    <div class="form-group">
-                        <?= Html::submitButton(Yii::t('app', 'Post'), ['class' => 'btn btn-success']) ?>
-                    </div>
-                    <?php ActiveForm::end(); ?>
-                </div>
-            </div>
-
-            <?php if (!empty($feeds)): ?>
-                <div id="content">
-                    <?php foreach($feeds as $feed): ?>
-                        <div class="item widget-container fluid-height social-entry" id="<?= $feed['id'] ?>">
-                            <div class="widget-content padded">
-                                <div class="profile-info clearfix">
-                                    <a class="pull-left" href="<?= Url::toRoute(['/user/view', 'id'=>$feed['username']]) ?>" rel="author" data-pjax="0">
-                                        <img width="50" height="50" class="social-avatar" src="<?= Yii::getAlias('@avatar') . $feed['avatar'] ?>" alt="@<?= $feed['username'] ?>"/>
-                                    </a>
-                                    <div class="profile-details">
-                                        <a class="user-name" href="<?= Url::toRoute(['/user/view', 'id'=>$feed['username']]) ?>" rel="author" data-pjax="0">
-                                            <?= Html::encode($feed['username']) ?>
-                                        </a>
-                                        <p>
-                                            <em><?= Yii::$app->formatter->asRelativeTime($feed['created_at']) ?></em>
-                                        </p>
-                                    </div>
-                                </div>
-                                <p class="content">
-                                    <?php
-                                        if (!empty($feed['content'])) {
-                                            echo Html::encode($feed['content']);
-                                        } else {
-                                            echo strtr($feed['template'], unserialize($feed['feed_data']));
-                                        }
-                                    ?>
-                                </p>
-                            </div>
-                            <div class="widget-footer">
-                                <div class="footer-detail">
-                                    <?php if(Yii::$app->user->id == $feed['user_id']): ?>
-                                        <a href="<?= Url::toRoute(['/home/feed/update', 'id' => $feed['id']]) ?>">
-                                            <span class="glyphicon glyphicon-edit"></span> <?= Yii::t('app', 'Edit') ?>
-                                        </a>
-                                        <span class="item-line"></span>
-                                        <a href="<?= Url::toRoute(['/home/feed/delete', 'id' => $feed['id']]) ?>" data-clicklog="delete" onclick="return false;" title="<?= Yii::t('app', 'Are you sure to delete it?') ?>">
-                                            <span class="glyphicon glyphicon-trash"></span> <?= Yii::t('app', 'Delete') ?>
-                                        </a>
-                                        <span class="item-line"></span>
-                                    <?php endif ?>
-                                    <a href="javascript:;" onclick="setRepostFormAction(<?= $feed['id'] ?>)" data-toggle="modal" data-target="#repost-modal">
-                                        <span class="glyphicon glyphicon-share-alt"></span> <?= Yii::t('app', 'Repost') ?>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    <?php endforeach; ?>
-                </div>
-                <?= InfiniteScrollPager::widget([
-                    'pagination' => $pages,
-                    'widgetId' => '#content',
-                ]);?>
-
-            <?php else: ?>
-                <div class="no-data-found">
-                    <i class="glyphicon glyphicon-folder-open"></i>
-                    <?= Yii::t('app', 'No feed to display. Go to ') ?><?= Html::a(Yii::t('app', 'Explore') . '?', ['/explore/index']) ?>
-                </div>
-            <?php endif; ?>
-
-
-
-
-
-            <?php
-            Modal::begin([
-                'header' => '<h4>' . Yii::t('app', 'Repost') . '</h4>',
-                'options' => ['id' => 'repost-modal']
-            ]);
-            $newFeed->setScenario('repost');
-            ?>
-                <?php $form = ActiveForm::begin([
-                    'options' => ['id' => 'repost-feed'],
-                    'action' => ['/home/feed/create?id=']
-                ]); ?>
-                <?= $form->field($newFeed, 'content')->textarea(['rows' => 3, 'id' => 'repost-feed-content'])->label(false) ?>
-                <div class="form-group">
-                    <?= Html::submitButton(Yii::t('app', 'Repost'), ['class' => 'btn btn-success']) ?>
-                </div>
-                <?php ActiveForm::end(); ?>
-            <?php Modal::end() ?>
-
-            <script type="text/javascript">
-                function setRepostFormAction (id) {
-                    var action = document.getElementById("repost-feed").action;
-                    document.getElementById("repost-feed").action = action + id;
-                }
-            </script>
-        </div>
-    </div>
+<div class="row">
+    <div class="col-md-3">
+                   <div class="card gedf-card border-rounded">
+                    <div class="card-header bg-dark" style="color: #fff;">Trending</div>
+                       <div class="card-body">
+                           <h5 class="card-title">Trending photos</h5>
+                       </div>
+                   </div>
+               </div>
 </div>
-

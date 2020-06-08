@@ -1,9 +1,4 @@
 <?php
-/**
- * @link http://www.iisns.com/
- * @copyright Copyright (c) 2015 iiSNS
- * @license http://www.iisns.com/license/
- */
 
 namespace app\modules\user\controllers;
 
@@ -19,7 +14,8 @@ use common\components\BaseController;
  */
 class DashboardController extends BaseController
 {
-    // public $layout='main';
+   // public $layout ='themes\basic\layouts\main';
+   public $layout = '@app/themes/basic/layouts/main';
     
     /**
      * @inheritdoc

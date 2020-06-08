@@ -40,4 +40,47 @@ class HelperModel extends \yii\base\Model
 
         return $models;
     }
+
+    public function resize($filepath, $width, $height) {
+        if (!is_file($filepath)) {
+            return;
+        }
+
+        $extension = pathinfo($filepath, PATHINFO_EXTENSION);
+
+        $image_old = $filepath;
+        $image_new = 'cache/' . utf8_substr($filepath, 0, utf8_strrpos($filepath, '.')) . '-' . (int)$width . 'x' . (int)$height . '.' . $extension;
+
+        if (!is_file($image_new) || (filemtime($image_old) > filemtime($image_new))) {
+            list($width_orig, $height_orig, $image_type) = getimagesize($image_old);
+                 
+            if (!in_array($image_type, array(IMAGETYPE_PNG, IMAGETYPE_JPEG, IMAGETYPE_GIF))) { 
+                return $image_old;
+            }
+                        
+            $path = '';
+
+            $directories = explode('/', dirname($image_new));
+
+            foreach ($directories as $directory) {
+                $path = $path . '/' . $directory;
+
+                if (!is_dir($path)) {
+                    @mkdir($path, 0777);
+                }
+            }
+
+            if ($width_orig != $width || $height_orig != $height) {
+                $image = new \common\models\Image($image_old);
+                $image->resize($width, $height);
+                $image->save($image_new);
+            } else {
+                copy($image_old, $image_new);
+            }
+        }
+        
+        $image_new = str_replace(' ', '%20', $image_new);  // fix bug when attach image on email (gmail.com). it is automatic changing space " " to +
+        
+        return $image_new;
+    }
 }

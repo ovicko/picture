@@ -193,4 +193,53 @@ class Tools extends \yii\base\BaseObject
             return $result.'...'.$replace; 
         }
     }
+
+    public static function resize($filepath, $width, $height) {
+        if (!is_file(Yii::getAlias('@webroot').$filepath)) {
+            return;
+        }
+
+        // $filepath = Yii::getAlias('@webroot').$filepath;
+
+        $extension = pathinfo($filepath, PATHINFO_EXTENSION);
+
+        $image_old = $filepath;
+        $image_new = utf8_substr($filepath, 0, utf8_strrpos($filepath, '.')) . '-' . (int)$width . 'x' . (int)$height . '.' . $extension;
+
+        if (!is_file(Yii::getAlias('@webroot').$image_new) || (filemtime(Yii::getAlias('@webroot').$image_old) > filemtime(Yii::getAlias('@webroot').$image_new))) {
+            list($width_orig, $height_orig, $image_type) = getimagesize(Yii::getAlias('@webroot').$image_old);
+                 
+            if (!in_array($image_type, array(IMAGETYPE_PNG, IMAGETYPE_JPEG, IMAGETYPE_GIF))) { 
+                return Yii::getAlias('@webroot').$image_old;
+            }
+
+            Yii::error($image_new);
+                        
+            $path = '';
+
+            $directories = explode('/', dirname($image_new));
+
+            foreach ($directories as $directory) {
+                $path = $path . '/' . $directory;
+
+                if (!is_dir(Yii::getAlias('@webroot').$path)) {
+                    @mkdir(Yii::getAlias('@webroot').$path, 0777);
+                }
+            }
+
+            if ($width_orig != $width || $height_orig != $height) {
+                $image = new \common\models\Image(Yii::getAlias('@webroot').$image_old);
+                $image->resize($width, $height);
+                $image->save(Yii::getAlias('@webroot').$image_new);
+            } else {
+                copy(Yii::getAlias('@webroot').$image_old, Yii::getAlias('@webroot').$image_new);
+            }
+        }
+        
+        $image_new = str_replace(' ', '%20', $image_new);  // fix bug when attach image on email (gmail.com). it is automatic changing space " " to +
+
+        Yii::error($image_new);
+        
+        return Yii::getAlias('@web').$image_new;
+    }
 }
