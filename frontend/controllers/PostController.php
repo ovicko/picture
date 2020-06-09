@@ -127,7 +127,7 @@ class PostController extends Controller
         ]);
      } 
 
-    public function actionCategoryQuestion($post_id,$category_id)
+    public function actionCategoryQuestion($post,$post_id,$category_id)
     {
         if (isset($post_id) && isset($category_id)) {
 
@@ -159,7 +159,7 @@ class PostController extends Controller
 
                         if ($flag) {
                             $transaction->commit();
-                            return $this->redirect(['view', 'id' => $post_id]);
+                            return $this->redirect(['view', 'post' => $post]);
                         }
                     } catch (Exception $e) {
                         $transaction->rollBack();
@@ -234,7 +234,7 @@ class PostController extends Controller
                 $model->addError('mainImageUrl', 'Image info missing,upload an image taken by a Camera!');
             } else if ($model->validate() && $model->save(false)) { 
                 //return $this->redirect(['view', 'id' => $model->post_id]);
-                return $this->redirect(['category-question', 'post_id' => $model->post_id,'category_id'=>$model->category_id]);
+                return $this->redirect(['category-question', 'post' => $model->unique_id,'post_id' => $model->post_id,'category_id'=>$model->category_id]);
             }
             
         }
@@ -338,5 +338,6 @@ class PostController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
-    }
+    }   
+
 }
