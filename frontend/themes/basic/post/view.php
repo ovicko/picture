@@ -57,11 +57,20 @@ $this->title = $model->post_id;
                       'label'=> 'Region',
                       'format'=> 'html'
                   ],
-                  // 'country_id',
+
+                  [
+                      'attribute' => 'country_id',
+                      'value' => function($data) { 
+                        // return Html::a($data->category->city_name, ['post/category?category_id='.$data->category->city_id], ['option' => 'value']);
+                        return $data->country->country_name;
+                    },
+                      'label'=> 'Country',
+                      'format'=> 'html'
+                  ],
+                  // '',
                   [
                       'attribute' => 'city_id',
                       'value' => function($data) { 
-                        // return Html::a($data->category->city_name, ['post/category?category_id='.$data->category->city_id], ['option' => 'value']);
                         return $data->city->city_name;
                     },
                       'label'=> 'City',
@@ -70,8 +79,8 @@ $this->title = $model->post_id;
                   'views_count',
                   'resolution',
                   'camera',
-                  // 'device_name',
-                  'date_taken',
+                  'device_name',
+                  'date_taken:datetime',
                   'date_added:datetime',
                   'tags:ntext',
                   // 'status',
