@@ -80,7 +80,6 @@ AppAsset::register($this);
                 $menuItems[] = ['label' => Yii::t('app', 'Dashboard'), 'url' => ['/user/dashboard']];
                 $menuItems[] = [
                     'label' => Yii::$app->user->identity->username,
-                    
                     'items' => [
                          [
                             'label' => "<img src=".Yii::getAlias('@avatar'). $user->avatar." alt='User Avatar'>
@@ -109,11 +108,22 @@ AppAsset::register($this);
                         [ 
                             'label' => 'Settings',
                             'url' => ['/user/setting'],
-                        ],                        [ 
-                            'label' => '<i class="glyphicon glyphicon-log-out"></i> Sign out',
-                            'url' => '#',
-                            'options'=> ['data-toggle' => "modal",'data-target' => "#logoutConfirm"],
-                        ],
+                        ],  
+
+                        '<a>' 
+                            . Html::beginForm(['/site/logout'], 'post')
+                            . Html::submitButton(
+                                'Logout',
+                                ['class' => 'btn btn-link logout']
+                            )
+                            . Html::endForm()
+                        . '</a>',                      
+
+                        // [ 
+                        //     'label' => '<i class="glyphicon glyphicon-log-out"></i> Sign out',
+                        //     'url' => '#',
+                        //     'linkOptions'=> ['data-toggle' => "modal",'data-target' => "#logoutConfirm"],
+                        // ],
 
                     ], 
                 ];
