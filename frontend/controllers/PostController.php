@@ -75,24 +75,7 @@ class PostController extends Controller
             'dataProvider' => $dataProvider,
         ]);
     }
-
-    public function actionCategory($category_id)
-    {
-        $listDataProvider = new \yii\data\ActiveDataProvider([
-            'query' => ImagePost::find()->where([
-                'category_id' => (int)$category_id,
-                'status' => 10])->orderBy('post_id DESC'),
-            'pagination' => [
-                'pageSize' => 20,
-            ],
-        ]);
-
-        return $this->render('//explore/photos', [
-            'listDataProvider' => $listDataProvider,
-        ]);
-    }   
-
-
+    
     public function actionAddComment()
     {
         if (Yii::$app->request->isAjax) {
