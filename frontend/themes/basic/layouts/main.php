@@ -16,7 +16,7 @@ $categoryMenu = array();
 foreach ($categories as $category) {
     $categoryMenu[] = array(
         'label' => $category->category_name,
-        'url' => ['/post/category?category_id='.$category->category_id]
+        'url' => ['/explore/category?category_id='.$category->category_id]
     );
 
 }
@@ -49,9 +49,10 @@ AppAsset::register($this);
                 'brandLabel' => 'Picture',
                 'brandUrl' => Yii::$app->homeUrl,
                 'options' => [
-                    'class' => 'navbar navbar-fixed-top navbar-expand-md navbar-light',
+                    'class' => 'navbar navbar-expand-sm navbar-fixed-top navbar-light',
                     'style'=> 'background-color: #fcc573;'
                 ],
+                'togglerOptions' => ['class' => 'navbar-toggler order-first'],
             ]);
 
             $menuItems[] = [
@@ -68,7 +69,7 @@ AppAsset::register($this);
             ]; 
 
             $menuItems[] = [
-                'label' => '<i class="glyphicon glyphicon-upload"></i> '.'Upload',
+                'label' => 'Upload',
                 'url' => ['/post/create']
             ];           
 
@@ -77,12 +78,11 @@ AppAsset::register($this);
                 $menuItems[] = ['label' => Yii::t('app', 'Join'), 'url' => ['/site/signup']];
                 $menuItems[] = ['label' =>  Yii::t('app', 'Log in'), 'url' => ['/site/login']];
             } else {
-                $menuItems[] = ['label' => Yii::t('app', 'Dashboard'), 'url' => ['/user/dashboard']];
                 $menuItems[] = [
-                    'label' => Yii::$app->user->identity->username,
+                    'label' => "<img src=".Yii::getAlias('@avatar'). $user->avatar."  class='rounded-circle text-centre' width='25' height='25'   alt='User Avatar'>",
                     'items' => [
                          [
-                            'label' => "<img src=".Yii::getAlias('@avatar'). $user->avatar." alt='User Avatar'>
+                            'label' => "
                                 <div class='detail'>
                                     <strong>". Html::encode($user->username)."</strong>
                                     <p class='grey'>".Html::encode($user->email)."</p>
@@ -129,7 +129,7 @@ AppAsset::register($this);
                 ];
             }
             echo Nav::widget([
-                'options' => ['class' => 'navbar-nav navbar-right'],
+                'options' => ['class' => 'navbar-nav navbar-right ml-auto'],
                 'encodeLabels' => false,
                 'items' => $menuItems,
             ]);

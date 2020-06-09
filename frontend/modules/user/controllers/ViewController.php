@@ -23,7 +23,7 @@ use app\modules\home\models\Album;
  */
 class ViewController extends BaseController
 {
-    public $layout = 'profile';
+    // public $layout = 'profile';
     /**
      * Displays a single User model.
      * @param integer $id

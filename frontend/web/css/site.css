@@ -2,7 +2,7 @@ html,
 body {
     /*height: 100%;*/
     background-color: #eeeeee;
-    padding-top: 35px;
+    padding-top: 40px;
     /*background-color: #eef0f3;*/
 }
 
@@ -24,40 +24,18 @@ body {
     }
 }
 
-/**Reset Bootstrap*/
-.dropdown-toggle::after {
-    content: none;
-    display: none;
-}
-
-#header {
-    background-color: #EEF0F3;
-    margin-bottom: 0px;
-    border: medium none;
-}
-
-/*.wrap {
+.wrap {
     min-height: 100%;
     height: auto;
     margin: 0 auto -60px;
     padding: 0 0 60px;
-}*/
+}
 
 .footer {
     height: 60px;
     background-color: #f5f5f5;
     border-top: 1px solid #ddd;
     padding-top: 20px;
-}
-
-.jumbotron {
-    text-align: center;
-    background-color: transparent;
-}
-
-.jumbotron .btn {
-    font-size: 21px;
-    padding: 14px 24px;
 }
 
 .not-set {
@@ -119,73 +97,6 @@ a.desc:after {
     border-left: 3px solid #eed3d7;
     padding: 10px 20px;
     margin: 0 0 15px 0;
-}
-
-.no-data-found {
-  background-color: rgba(255,255,255,0.05);
-  color: #555;
-  text-align: center;
-  border: 1px solid rgba(0,0,0,0.18);
-  border-radius: 6px;
-  padding: 100px 20px;
-  font-size: 22px;
-  font-weight: bold;
-}
-.no-data-found i {
-  display: block;
-  height: 100px;
-  width: 150px;
-  opacity: .46;
-  margin: 0 auto 10px auto;
-  font-size: 4em;
-}
-
-
-#home-post .post-image img {
-    height: 100px;
-    width: 100px;
-}
-
-.post-all .post-item {
-    padding: 20px 0;
-}
-.post-all img {
-    max-width: 100%;
-}
-
-.navbar-custom {
-    background-color:#229922;
-    color:#ffffff;
-    border-radius:0;
-    height: 60px;
-}
-
-.navbar-custom .navbar-nav > li > a {
-    color:#fff;
-}
-
-.navbar-custom .navbar-nav > .active > a {
-    color: #ffffff;
-    background-color:transparent;
-}
-
-.navbar-custom .navbar-nav > li > a:hover,
-.navbar-custom .navbar-nav > li > a:focus,
-.navbar-custom .navbar-nav > .active > a:hover,
-.navbar-custom .navbar-nav > .active > a:focus,
-.navbar-custom .navbar-nav > .open >a {
-    text-decoration: none;
-    background-color: #33aa33;
-}
-
-.navbar-custom .navbar-brand {
-    color:#eeeeee;
-}
-.navbar-custom .navbar-toggle {
-    background-color:#eeeeee;
-}
-.navbar-custom .icon-bar {
-    background-color:#33aa33;
 }
 
 .nav > li > a {
