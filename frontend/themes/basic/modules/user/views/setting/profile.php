@@ -21,11 +21,7 @@ use yii\widgets\ActiveForm;
                 'istoday' => false,
             ]
         ]) ?>
-
-        <?= $form->field($profile, 'signature')->textarea() ?>
-
-        <?= $form->field($profile, 'address')->textarea() ?>
-
+        
         <?= $form->field($profile, 'description')->textarea() ?>
 
         <div class="form-group">
@@ -37,11 +33,11 @@ use yii\widgets\ActiveForm;
     </div>
     <div class="col-md-6">
         <div class="form-group">
-            <label class="control-label col-md-12"><?= Yii::t('app', 'User Avatar') ?></label>
+            <label class="control-label col-md-12"><?= Yii::t('app', 'Profile Picture') ?></label>
             <div class="col-md-6">
               <div class="fileupload fileupload-new">
                 <div class="fileupload-new img-preview" style="width: 150px; height: 150px;">
-                  <img src="<?= Yii::getAlias('@avatar').$model->avatar ?>"  style="width: 150px; height: 150px;">
+                  <img src="<?= Yii::getAlias('@avatar').$model->avatar ?>" class="mx-auto d-block rounded-circle img-fluid"  style="width: 150px; height: 150px;">
                 </div>
               </div>
             </div>
@@ -52,7 +48,7 @@ use yii\widgets\ActiveForm;
             </div>
         </div>
         <div class="clearfix"></div>
-        <div class="form-group">
+<!--         <div class="form-group">
             <div class="col-md-12">
                 <?= \iisns\webuploader\Cropper::widget() ?>
             </div>
@@ -60,8 +56,8 @@ use yii\widgets\ActiveForm;
                 <a id="set-avatar" class="btn btn-success btn-lg" href="<?= Url::toRoute(['/user/setting/avatar']) ?>" onclick="return false;">
                     <?= Yii::t('app', 'System avatar') ?>
                 </a>
-                <div id="avatar-container"></div><!-- 系统头像容器 -->
+                <div id="avatar-container"></div>
             </div>
-        </div>
+        </div> -->
     </div>
 </div>

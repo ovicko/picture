@@ -57,8 +57,18 @@ class ViewController extends BaseController
 
         $result = Yii::$app->tools->Pagination($query);
 
+        $myPostsProvider = new \yii\data\ActiveDataProvider([
+            'query' => \common\models\ImagePost::find()->where([
+                'user_id' => (int)$model->id])->orderBy('date_added DESC'),
+            'pagination' => [
+                'pageSize' => 20,
+            ],
+        ]);
+
+
         return $this->render('/user/view', [
             'model' => $model,
+            'myPostsProvider' => $myPostsProvider,
             'feeds' => $result['result'],
             'pages' => $result['pages']
         ]);

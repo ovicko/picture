@@ -15,7 +15,7 @@ use common\components\BaseController;
 class DashboardController extends BaseController
 {
    // public $layout ='themes\basic\layouts\main';
-   public $layout = '@app/themes/basic/layouts/main';
+   // public $layout = '@app/themes/basic/layouts/main';
     
     /**
      * @inheritdoc

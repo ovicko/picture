@@ -135,23 +135,7 @@ if ($done) {
     </footer>
     <?php $this->endBody() ?>
     <script>
-        $('.follow').on('click', function () {
-            var a = $(this);
-            $.ajax({
-                url: a.attr('href'),
-                success: function (data) {
-                    if (data.action == 'create') {
-                        a.html('Unfollow');
-                    } else {
-                        a.html('Click to follow');
-                    }
-                },
-                error: function (XMLHttpRequest, textStatus) {
-                    location.href = "<?= Url::toRoute(['/site/login']) ?>";
-                }
-            });
-            return false;
-        });
+
     </script>
     <div style="display: none"><?= Yii::$app->setting->get('statisticsCode') ?></div>
     </body>
