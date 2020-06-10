@@ -13,6 +13,12 @@ $commentModel = new \common\models\ImagePostComment();
 $this->registerCss('h1{float:left; width:100%; color:#232323; margin-bottom:30px; font-size: 14px;}
 h1 span{font-family: "Libre Baskerville", serif; display:block; font-size:45px; text-transform:none; margin-bottom:20px; margin-top:30px; font-weight:700}
 h1 a{color:#131313; font-weight:bold;}
+
+  .card-img{
+   width: 100%!important;
+   height: 200px !important;
+   object-fit: cover;
+}
 ');
 $this->registerJsFile('@web/js/jquery.timeago.js',['depends' => [\yii\web\JqueryAsset::className()]]);
 
@@ -67,55 +73,25 @@ $this->registerJs('
 ?>
 
 <div class="row">
-  <div class="col-md-3 mt-3">
+  <div class="col-md-9 gedf-main">
 
-    <?php if (!Yii::$app->user->isGuest) { ?>
-          <div class="card-body pt-5">
-              <img src="<?= Yii::getAlias('@avatar'). Yii::$app->user->identity->avatar ?>" alt="profile-image" class="profile"/>
-              <h5 class="card-title text-center"><?= Yii::$app->user->identity->username ?></h5>
-          </div>
-    <?php }  ?>
-    <div class="card profile-card-4">
-
-    <div class="card gedf-card border-rounded">
-        <div class="card-body">
-            <h5 class="card-title">Home</h5>
-            <h5 class="card-title">Notifications</h5>
-            <h5 class="card-title">Messages</h5>
-            <h5 class="card-title">Profile</h5>
-            <h5 class="card-title">Help</h5>
-        </div>
+    <div class="row">
+      <?php if ($listDataProvider->getModels()) { ?>
+        <?php foreach ($listDataProvider->getModels() as $model) { ?>
+         <div class="col-sm-4" style="margin-bottom: 2.77rem;">
+           <div class="card gedf-card">
+               <div class="card-body">
+                   <a class="card-link" href="<?= Url::to(['post/view','post' => $model->unique_id] )?>">
+                    <img src="<?= Yii::$app->tools->resize('/uploads/posts/'.$model->thumbnail_url,200,200)  ?>" class="card-img img-fluid" />
+                   </a>
+               </div>
+           </div>
+         </div>
+       <?php } ?>
+     <?php } else { ?>
+        <h4>No results found</h4>
+      <?php } ?>
     </div>
-  </div>
-  </div>
-  <div class="col-md-6 gedf-main">
-    <?=
-    \yii\widgets\ListView::widget([
-        'dataProvider' => $listDataProvider,
-        'options' => [
-            'tag' => 'div',
-            'class' => 'list-wrapper',
-            'id' => 'list-wrapper',
-        ],
-        'layout' => "{pager}\n{items}\n{summary}",
-        'itemView' => function ($model, $key, $index, $widget) use ($commentModel) {
-            return $this->render('_image_post',[
-              'model' => $model,
-              'commentModel' => $commentModel
-            ]);
-        },
-        'itemOptions' => [
-            'tag' => false,
-        ],
-        'pager' => [
-            'firstPageLabel' => 'first',
-            'lastPageLabel' => 'last',
-            'nextPageLabel' => 'next',
-            'prevPageLabel' => 'previous',
-            'maxButtonCount' => 3,
-        ],
-    ]);
-    ?>
   </div>
   <div class="col-md-3">
                  <div class="card gedf-card border-rounded">

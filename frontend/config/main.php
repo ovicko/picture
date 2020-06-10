@@ -79,6 +79,7 @@ return [
                 // '<alias:\w+>/<id:\d+>' => 'site/<alias>',
                 'users/<id:[\x{4e00}-\x{9fa5}a-zA-Z0-9_]*>' => 'user/view',
                 // 'p/<id:\d+>' => 'user/view/view-post',
+                'explore/<category_id:\d+>' => 'explore/category',
                 'posts/<post:\w+>' => 'post/view',
             ],
         ],

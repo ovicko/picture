@@ -3,39 +3,149 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use common\widgets\user\UserProfile;
+use yii\widgets\Pjax;
+
 
 /* @var $this yii\web\View */
 /* @var $model common\models\ImagePost */
 
 $this->title = $model->post_id;
 \yii\web\YiiAsset::register($this);
-// $this->registerCss('.container { margin-left : 0px !important; } ');
+
+$commentModel = new \common\models\ImagePostComment();
+
+$this->registerJs(
+   '$("document").ready(function(){ 
+        $("#new_comment_btn_'.$model->post_id.'").on("click", function(e) {
+            
+            postComment("#new_comment_form_'.$model->post_id.'",'.$model->post_id.')
+        });
+    });'
+);
+
+$this->registerCss('h1{float:left; width:100%; color:#232323; margin-bottom:30px; font-size: 14px;}
+h1 span{font-family: "Libre Baskerville", serif; display:block; font-size:45px; text-transform:none; margin-bottom:20px; margin-top:30px; font-weight:700}
+h1 a{color:#131313; font-weight:bold;}
+  .card-img{
+   width: 100%!important;
+   object-fit: cover;
+}
+');
+$this->registerJsFile('@web/js/jquery.timeago.js',['depends' => [\yii\web\JqueryAsset::className()]]);
+
+$this->registerJs('
+  jQuery(document).ready(function() {
+    jQuery("time.timeago").timeago();
+  });
+
+  jQuery(document).on("pjax:success", function(event){
+              jQuery("time.timeago").timeago();
+            }
+          );
+
+  function postComment (formElement,post_id) {
+     $(formElement).on("beforeSubmit", function (e) {
+      // e.preventDefault()
+         var form = $(this);
+
+         if (form.find(".has-error").length)  {
+          $(form).trigger("reset");
+             return false;
+         }
+         // submit form
+         $("#new_comment_btn_"+post_id).off("click");
+
+         $.ajax({
+             url    : form.attr("action"),
+             type   : "post",
+             data   : form.serialize(),
+             async:false,
+             beforeSend : function(data){ 
+                   $("#new_comment_btn_"+post_id).prop("disabled",true)
+              },
+
+            complete : function(data){ 
+                   $("#new_comment_btn_"+post_id).prop("disabled",false)
+            },
+             success: function (response)  {
+                $(form).trigger("reset");
+                console.log(response)
+                $.pjax.reload({container:"#post_comment_list_"+post_id,async: false}); 
+             },
+             error  : function () {
+                 console.log("internal server error");
+             }
+         });
+         return false;
+      });
+  }
+
+');
 ?>
   <div class="row">
-    <div class="col-xs-9">
-        <img src="<?= Yii::$app->tools->resize('/uploads/posts/'.$model->thumbnail_url,960,640)  ?>" class="img-fluid" style="width: 960px;height: 640px;" />
-        <div class="clearfix"></div>
-        <?php if ($quizAnswer) {
+    <div class="col-sm-8">
 
-         foreach ($quizAnswer as $quiz) :  ?>
-               <h4><?= $quiz->question->content ?></h4>
-               <p><?= $quiz->answer ?></p>
-        <?php endforeach ?>
-        <?php } else { ?>
-            <p>No Q&A for now</p>
-        <?php } ?>
+      <div class="card">
+          <img src="<?= Yii::$app->tools->resize('/uploads/posts/'.$model->thumbnail_url,900,640)  ?>" class="card-img img-fluid" style="margin-bottom: 2.77rem;" />
+          <div class="card-body">
+            <?php if ($quizAnswer) {
+
+             foreach ($quizAnswer as $quiz) :  ?>
+                   <h4><?= $quiz->question->content ?></h4>
+                   <p><?= $quiz->answer ?></p>
+            <?php endforeach ?>
+            <?php } else { ?>
+                <p>No Q&A for now</p>
+            <?php } ?>
+          </div>
+      </div>
 
         <div class="clearfix"></div>
         <h4><strong>Comments</strong></h4>
+        <div class="card" style="margin-bottom: 20px;"  data-post-id="<?php $model->post_id ?>" >
+            <div class="card-body">
+               
+                    <?php if (!Yii::$app->user->isGuest) { ?>
+                    <?php
+
+                    $form = \yii\widgets\ActiveForm::begin([
+                      'id' => 'new_comment_form_'.$model->post_id,
+                      'action' => ['/post/add-comment'],
+                      'enableAjaxValidation'=>false,
+                      'enableClientValidation'=>true,
+                      'options' => ['data-pjax' => true]
+                    ]);?>
+
+                    <?= $form->field($commentModel, 'post_id')->hiddenInput(['id' => 'new_comment_post_id_'.$model->post_id,'value'=> $model->post_id])->label(false) ?>
+                    
+                    <?= $form->field($commentModel, 'comment')->textarea(['class'=>'form-control','id' => 'new_comment_text_'.$model->post_id,'rows' => 2,'placeholder'=> 'Comment'])->label(false) ?>
+                    <div class="form-group">
+                        <?= Html::submitButton(Yii::t('app', 'Comment'), [
+                            'id' => 'new_comment_btn_'.$model->post_id,
+                            'class' => 'btn btn-success pull-right']) ?>
+                    </div>
+                    <?php
+                    \yii\widgets\ActiveForm::end();
+                    ?>
+
+                <?php } else { ?>
+                    <h4>Login to comment</h4>
+                <?php } ?>
+
+                    <?php Pjax::begin(['id' => 'post_comment_list_'.$model->post_id, 'enablePushState'=>false, 'timeout' => 5000]); ?>
+                       <?php \Yii::$app->runAction('/post/comment',['post_id' => $model->post_id ]); ?>
+                    <?php Pjax::end(); ?>
+            </div>
+        </div>
 
     </div>
-      <div class="col-xs-3">
+      <div class="col-sm-4">
           <?= UserProfile::widget(['user_id' => $model->user_id]) ?>
           <?= DetailView::widget([
               'model' => $model,
               'attributes' => [
                   //'post_id',
-                  'unique_id',
+                  // 'unique_id',
                   // '',
                   [
                       'attribute' => 'category_id',

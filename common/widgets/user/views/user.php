@@ -10,7 +10,7 @@ $this->registerCSS('.round-button { border-radius: 24px!important;}');
   </div>
   <div class="media-body">
     <h4 class="media-heading"><?= $user->username ?></h4>
-    <button class="round-button btn btn-sm btn-success">Follow</button>
+    <button id="follow-user" data-username="<?php $user->username ?>" class="round-button btn btn-sm btn-success">Follow</button>
   </div>
 </div>
 <div class="clearfix"></div>

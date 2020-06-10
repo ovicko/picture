@@ -18,13 +18,10 @@ use yii\helpers\HtmlPurifier;
     <div class="media-body">
         <div class="media-heading">
             <?= Html::a(Html::encode($model->user_name), ['/user/view', 'id' => $model->user_id]) ?>
+            <span><time class="timeago" datetime="<?= $model->date_added ?>"><?= $model->date_added ?></time> </span>
         </div>
         <div class="media-content">
             <p><?= HtmlPurifier::process($model->comment) ?></p>
-            <p>
-              <time class="timeago" datetime="<?= $model->date_added ?>"><?= $model->date_added ?></time>  
-            </p>
-            
         </div>
     </div>
 </div>
