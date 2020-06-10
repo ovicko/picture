@@ -16,7 +16,7 @@ $categoryMenu = array();
 foreach ($categories as $category) {
     $categoryMenu[] = array(
         'label' => $category->category_name,
-        'url' => ['/explore/'.$category->category_id]
+        'url' => ['/explore/'.$category->category_name.'/'.$category->category_id]
     );
 
 }
@@ -49,7 +49,7 @@ AppAsset::register($this);
                 'brandLabel' => 'Picture',
                 'brandUrl' => Yii::$app->homeUrl,
                 'options' => [
-                    'class' => 'navbar navbar-expand-sm navbar-fixed-top navbar-light',
+                    'class' => 'navbar navbar-expand-sm fixed-top navbar-light',
                     'style'=> 'background-color: #fcc573;'
                 ],
                 'togglerOptions' => ['class' => 'navbar-toggler order-first'],
@@ -96,10 +96,6 @@ AppAsset::register($this);
                             'url' => ['/user/view', 'id' => $user->username],
                         ],                          
 
-                        [ 
-                            'label' => 'My Images',
-                            'url' => ['/user/view', 'id' => $user->username],
-                        ],
                         [ 
                             'label' => 'Messages',
                             'url' => ['/user/view', 'id' => $user->username],
@@ -150,17 +146,7 @@ AppAsset::register($this);
         </p>
         </div>
     </footer>
-    <?php
-      Modal::begin([
-          'id' => 'logoutConfirm',
-          'title' => '<h2>' . Yii::t('app', 'Log out') . '</h2>',
-          'footer' => Html::a(Yii::t('app', 'Log out'), ['/site/logout'], ['class' => 'btn btn-default'])
-      ]);
-      echo Yii::t('app', 'Are you sure you want to Log out?');
-      Modal::end();
-    ?>
     <?php $this->endBody() ?>
-    <div style="display: none"><?= Yii::$app->setting->get('statisticsCode') ?></div>
 </body>
 </html>
 <?php $this->endPage() ?>
