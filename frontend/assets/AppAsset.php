@@ -25,6 +25,5 @@ class AppAsset extends AssetBundle
         'yii\web\YiiAsset',
         // 'yii\bootstrap\BootstrapPluginAsset',
         'yii\bootstrap4\BootstrapAsset',
-        'app\assets\CommonAsset'
     ];
 }
